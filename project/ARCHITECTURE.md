@@ -18,41 +18,33 @@ SysArx is a microservices-based SysML v2 modeling platform deployed via Docker c
 
 ## Service Architecture
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                    Web Browser                           │
-└────────────────────┬────────────────────────────────────┘
-                     │ HTTPS/SignalR
-                     ▼
-┌─────────────────────────────────────────────────────────┐
-│              Blazor Web (Port 5000)                      │
-│              - UI Components                             │
-│              - SignalR Hub                               │
-└─────┬──────────────┬──────────────┬─────────────────────┘
-      │              │              │
-      ▼              ▼              ▼
-┌──────────┐   ┌──────────┐   ┌──────────┐
-│   Auth   │   │ SysMLSt  │   │ SysMLDi  │
-│ (5003)   │   │   ore    │   │  agram   │
-│          │   │ (5001)   │   │ (5002)   │
-│ JWT/LDAP │   │ MongoDB  │   │  Redis   │
-│ /SSO     │   │ Models   │   │ Diagrams │
-└────┬─────┘   └────┬─────┘   └────┬─────┘
-     │              │              │
-     └──────────────┴──────────────┘
-                    │
-                    ▼
-┌─────────────────────────────────────────────────────────┐
-│                   Dapr Runtime                           │
-│  State Store │ Pub/Sub │ Service Invocation             │
-└─────────────────────────────────────────────────────────┘
-                    │
-     ┌──────────────┼──────────────┐
-     ▼              ▼              ▼
-┌─────────┐   ┌─────────┐   ┌─────────┐
-│ MongoDB │   │ Redis   │   │RabbitMQ │
-│ (27017) │   │ (6379)  │   │ (5672)  │
-└─────────┘   └─────────┘   └─────────┘
+```mermaid
+graph TB
+    User[Web Browser]
+    
+    User -->|HTTPS/SignalR| Web[Blazor Web<br/>Port 5000<br/>- UI Components<br/>- SignalR Hub]
+    
+    Web -->|HTTP| Auth[Auth<br/>Port 5003<br/>JWT/LDAP/SSO]
+    Web -->|HTTP| Store[SysMLStore<br/>Port 5001<br/>MongoDB Models]
+    Web -->|HTTP| Diagram[SysMLDiagram<br/>Port 5002<br/>Redis Diagrams]
+    
+    Auth --> Dapr[Dapr Runtime<br/>State Store | Pub/Sub | Service Invocation]
+    Store --> Dapr
+    Diagram --> Dapr
+    
+    Dapr --> MongoDB[(MongoDB<br/>Port 27017)]
+    Dapr --> Redis[(Redis<br/>Port 6379)]
+    Dapr --> RabbitMQ[(RabbitMQ<br/>Port 5672)]
+    
+    style User fill:#e1f5ff
+    style Web fill:#fff4e1
+    style Auth fill:#ffe1e1
+    style Store fill:#e1ffe1
+    style Diagram fill:#f0e1ff
+    style Dapr fill:#ffffcc
+    style MongoDB fill:#e8f4f8
+    style Redis fill:#ffe8e8
+    style RabbitMQ fill:#fff8e8
 ```
 
 ---
@@ -90,18 +82,32 @@ SysArx is a microservices-based SysML v2 modeling platform deployed via Docker c
 Three deployment modes (see [AUTHENTICATION_REFACTORING.md](../docs/AUTHENTICATION_REFACTORING.md)):
 
 ### Local Mode
-```
-User → Auth → Test Users (in-memory) → JWT
+### Local Mode
+```mermaid
+flowchart LR
+    User --> Auth[Auth Service]
+    Auth --> TestUsers[Test Users<br/>in-memory]
+    TestUsers --> JWT[JWT Token]
+    JWT --> User
 ```
 
 ### LDAP Mode
-```
-User → Auth → LDAP Server → JWT
+```mermaid
+flowchart LR
+    User --> Auth[Auth Service]
+    Auth --> LDAP[LDAP Server]
+    LDAP --> JWT[JWT Token]
+    JWT --> User
 ```
 
 ### LdapSSO Mode
-```
-User → Auth → SSO Provider → LDAP Federation → JWT
+```mermaid
+flowchart LR
+    User --> Auth[Auth Service]
+    Auth --> SSO[SSO Provider]
+    SSO --> Federation[LDAP Federation]
+    Federation --> JWT[JWT Token]
+    JWT --> User
 ```
 
 ---
@@ -109,19 +115,38 @@ User → Auth → SSO Provider → LDAP Federation → JWT
 ## Data Flow
 
 ### Model Creation
-```
-User Input → Blazor UI → SysMLStore → MongoDB
-                            ↓
-                         Event → RabbitMQ → SysMLDiagram
-                                                    ↓
-                                              Diagram → Redis
+```mermaid
+sequenceDiagram
+    participant User as User Input
+    participant Blazor as Blazor UI
+    participant Store as SysMLStore
+    participant Mongo as MongoDB
+    participant MQ as RabbitMQ
+    participant Diagram as SysMLDiagram
+    participant Redis
+    
+    User->>Blazor: Create model
+    Blazor->>Store: Save model
+    Store->>Mongo: Store data
+    Store->>MQ: Publish event
+    MQ->>Diagram: Model changed
+    Diagram->>Redis: Update diagram cache
 ```
 
 ### Authentication
-```
-Login → Auth → [Local|LDAP|SSO] → JWT → Blazor UI
-                                             ↓
-                                    Subsequent API calls
+```mermaid
+sequenceDiagram
+    participant User
+    participant Auth
+    participant Mode as [Local|LDAP|SSO]
+    participant Blazor as Blazor UI
+    participant APIs as API Services
+    
+    User->>Auth: Login
+    Auth->>Mode: Authenticate
+    Mode-->>Auth: Success
+    Auth-->>Blazor: JWT Token
+    Blazor->>APIs: Subsequent API calls<br/>(with JWT)
 ```
 
 ---

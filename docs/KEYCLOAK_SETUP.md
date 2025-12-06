@@ -285,40 +285,23 @@ After authentication, inspect the JWT token:
 
 ## Architecture
 
-```
-┌─────────────┐
-│   Browser   │
-└──────┬──────┘
-       │ 1. Access App
-       ▼
-┌─────────────────┐
-│  Blazor Web     │
-│  (Port 5000)    │
-└────────┬────────┘
-         │ 2. Redirect to Keycloak
-         ▼
-┌─────────────────┐
-│    Keycloak     │◄──────┐
-│  (Port 8080)    │       │ Optional:
-└────────┬────────┘       │ User Lookup
-         │ 3. Auth Success│
-         │                ▼
-         │         ┌──────────┐
-         │         │   LDAP   │
-         │         │ Server   │
-         │         └──────────┘
-         │ 4. Return Token
-         ▼
-┌─────────────────┐
-│  Blazor Web     │
-│  (Authenticated)│
-└────────┬────────┘
-         │ 5. API Call + Token
-         ▼
-┌─────────────────┐
-│  API Services   │
-│  (Validate JWT) │
-└─────────────────┘
+```mermaid
+sequenceDiagram
+    participant Browser
+    participant Blazor as Blazor Web<br/>(Port 5000)
+    participant Keycloak as Keycloak<br/>(Port 8080)
+    participant LDAP as LDAP Server<br/>(Optional)
+    participant APIs as API Services
+    
+    Browser->>Blazor: 1. Access App
+    Blazor->>Keycloak: 2. Redirect to Keycloak
+    Keycloak->>LDAP: Optional: User Lookup
+    LDAP-->>Keycloak: User Info
+    Keycloak-->>Blazor: 3. Auth Success<br/>4. Return Token
+    Blazor->>APIs: 5. API Call + Token
+    APIs->>APIs: Validate JWT
+    APIs-->>Blazor: Response
+    Blazor-->>Browser: Display Content
 ```
 
 ## Local Development vs Production

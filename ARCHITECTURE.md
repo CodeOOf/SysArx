@@ -2,79 +2,47 @@
 
 ## System Overview
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                         User / Browser                           │
-└────────────────────────────┬────────────────────────────────────┘
-                             │ HTTP/HTTPS
-                             ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    Blazor Web Application                        │
-│                        (Port 5000)                               │
-│  ┌───────────────────────────────────────────────────────────┐  │
-│  │  - Server-side Blazor                                     │  │
-│  │  - Interactive components                                 │  │
-│  │  - API integration                                        │  │
-│  └───────────────────────────────────────────────────────────┘  │
-└───────┬──────────────────────┬──────────────────────┬───────────┘
-        │                      │                      │
-        │ HTTP                 │ HTTP                 │ HTTP
-        ▼                      ▼                      ▼
-┌──────────────┐     ┌──────────────────┐     ┌─────────────────┐
-│   Auth API   │     │ SysMLStore API   │     │SysMLDiagram API │
-│  (Port 5003) │     │   (Port 5001)    │     │  (Port 5002)    │
-│              │     │                  │     │                 │
-│ - LDAP Auth  │     │ - CRUD Ops       │     │ - State Mgmt    │
-│ - JWT Token  │     │ - MongoDB        │     │ - Redis         │
-│ - Test Users │     │ - Dapr Pub/Sub   │     │ - Dapr State    │
-└──────┬───────┘     └────────┬─────────┘     └────────┬────────┘
-       │                      │                         │
-       │              ┌───────┴─────────┬───────────────┘
-       │              │                 │
-       │              │                 │ Dapr Sidecar
-       │              ▼                 ▼
-       │     ┌────────────────┐  ┌─────────────────┐
-       │     │   Dapr Runtime │  │  Dapr Runtime   │
-       │     │   (sidecar)    │  │   (sidecar)     │
-       │     └────────┬───────┘  └────────┬────────┘
-       │              │                    │
-       │              └────────┬───────────┘
-       │                       │
-       │                       │ Dapr Components
-       │                       ▼
-       │              ┌─────────────────┐
-       │              │ Dapr Placement  │
-       │              │   (Port 50006)  │
-       │              └─────────────────┘
-       │
-       ▼
-┌──────────────────────────────────────────────────────────────────┐
-│                      Infrastructure Layer                         │
-├──────────────┬────────────────┬────────────────┬─────────────────┤
-│              │                │                │                 │
-│  ┌─────────┐ │  ┌──────────┐ │  ┌──────────┐ │  ┌───────────┐  │
-│  │ MongoDB │ │  │  Redis   │ │  │ RabbitMQ │ │  │  OpenLDAP │  │
-│  │ (27017) │ │  │  (6379)  │ │  │ (5672)   │ │  │   (389)   │  │
-│  │         │ │  │          │ │  │ (15672)  │ │  │   (636)   │  │
-│  │ NoSQL   │ │  │  Cache & │ │  │ Message  │ │  │   Auth    │  │
-│  │  Store  │ │  │  State   │ │  │  Broker  │ │  │  Server   │  │
-│  └─────────┘ │  └──────────┘ │  └──────────┘ │  └───────────┘  │
-│              │                │                │                 │
-└──────────────┴────────────────┴────────────────┴─────────────────┘
-
-┌──────────────────────────────────────────────────────────────────┐
-│                    Supporting Services                            │
-├─────────────────────────────┬────────────────────────────────────┤
-│                             │                                    │
-│  ┌─────────────────────┐    │    ┌──────────────────────────┐   │
-│  │  Seq Logging        │    │    │  phpLDAPadmin            │   │
-│  │  (Port 5341)        │    │    │  (Port 6443)             │   │
-│  │                     │    │    │                          │   │
-│  │  - Centralized Logs │    │    │  - LDAP Management UI    │   │
-│  │  - Search & Filter  │    │    │  - User/Group Admin      │   │
-│  └─────────────────────┘    │    └──────────────────────────┘   │
-│                             │                                    │
-└─────────────────────────────┴────────────────────────────────────┘
+```mermaid
+graph TD
+    User[User / Browser]
+    
+    User -->|HTTP/HTTPS| Web[Blazor Web Application<br/>Port 5000<br/>- Server-side Blazor<br/>- Interactive components<br/>- API integration]
+    
+    Web -->|HTTP + JWT| Auth[Auth Service<br/>Port 5003<br/>- LDAP Auth<br/>- JWT Token<br/>- Test Users]
+    Web -->|HTTP + JWT| Store[SysMLStore Service<br/>Port 5001<br/>- CRUD Ops<br/>- MongoDB<br/>- Dapr Pub/Sub]
+    Web -->|HTTP + JWT| Diagram[SysMLDiagram Service<br/>Port 5002<br/>- State Mgmt<br/>- Redis<br/>- Dapr State]
+    
+    Auth --> Dapr1[Dapr Sidecar]
+    Store --> Dapr2[Dapr Sidecar]
+    Diagram --> Dapr3[Dapr Sidecar]
+    
+    Dapr1 --> DaprPlacement[Dapr Placement<br/>Port 50006]
+    Dapr2 --> DaprPlacement
+    Dapr3 --> DaprPlacement
+    
+    Auth --> LDAP[OpenLDAP<br/>Port 389/636<br/>Auth Server]
+    Store --> MongoDB[MongoDB<br/>Port 27017<br/>NoSQL Store]
+    Diagram --> Redis[Redis<br/>Port 6379<br/>Cache & State]
+    
+    Store -.->|Pub/Sub| RabbitMQ[RabbitMQ<br/>Port 5672/15672<br/>Message Broker]
+    Diagram -.->|Pub/Sub| RabbitMQ
+    
+    Auth -.->|Logs| Seq[Seq Logging<br/>Port 5341<br/>Centralized Logs]
+    Store -.->|Logs| Seq
+    Diagram -.->|Logs| Seq
+    Web -.->|Logs| Seq
+    
+    LDAP -.->|Manage| PHPAdmin[phpLDAPadmin<br/>Port 6443<br/>LDAP Management UI]
+    
+    style User fill:#e1f5ff
+    style Web fill:#fff4e1
+    style Auth fill:#ffe1e1
+    style Store fill:#e1ffe1
+    style Diagram fill:#f0e1ff
+    style MongoDB fill:#e8f4f8
+    style Redis fill:#ffe8e8
+    style RabbitMQ fill:#fff8e8
+    style LDAP fill:#e8f8e8
 ```
 
 ## Service Communication
@@ -90,35 +58,56 @@
 ## Data Flow
 
 ### Authentication Flow
-```
-1. User → Blazor Web: Login request
-2. Blazor Web → Auth API: POST /api/auth/login
-3. Auth API → LDAP/Test Users: Authenticate
-4. Auth API → Blazor Web: JWT Token
-5. Blazor Web: Store token for subsequent requests
+```mermaid
+sequenceDiagram
+    participant User
+    participant Blazor as Blazor Web
+    participant Auth as Auth Service
+    participant LDAP as LDAP/Test Users
+    
+    User->>Blazor: Login request
+    Blazor->>Auth: POST /api/auth/login
+    Auth->>LDAP: Authenticate
+    LDAP-->>Auth: Success/Failure
+    Auth-->>Blazor: JWT Token
+    Blazor->>Blazor: Store token
 ```
 
 ### SysML Item Management Flow
-```
-1. User → Blazor Web: Create/Read/Update/Delete SysML item
-2. Blazor Web → SysMLStore API: HTTP Request + JWT
-3. SysMLStore API → MongoDB: CRUD operations
-4. SysMLStore API → Dapr Pub/Sub: Publish event (if needed)
-5. MongoDB → SysMLStore API: Response
-6. SysMLStore API → Blazor Web: Response
-7. Blazor Web → User: Display result
+```mermaid
+sequenceDiagram
+    participant User
+    participant Blazor as Blazor Web
+    participant Store as SysMLStore
+    participant Mongo as MongoDB
+    participant Dapr as Dapr Pub/Sub
+    
+    User->>Blazor: Create/Update/Delete Item
+    Blazor->>Store: HTTP Request + JWT
+    Store->>Mongo: CRUD operations
+    Store->>Dapr: Publish event (if needed)
+    Mongo-->>Store: Response
+    Store-->>Blazor: Response
+    Blazor-->>User: Display result
 ```
 
 ### Diagram Management Flow
-```
-1. User → Blazor Web: Manage diagram items
-2. Blazor Web → SysMLDiagram API: HTTP Request + JWT
-3. SysMLDiagram API → Dapr State Store: State operations
-4. Dapr State Store → Redis: Store/Retrieve state
-5. Redis → Dapr State Store: Response
-6. Dapr State Store → SysMLDiagram API: Response
-7. SysMLDiagram API → Blazor Web: Response
-8. Blazor Web → User: Display updated diagram
+```mermaid
+sequenceDiagram
+    participant User
+    participant Blazor as Blazor Web
+    participant Diagram as SysMLDiagram
+    participant DaprState as Dapr State Store
+    participant Redis
+    
+    User->>Blazor: Manage diagram items
+    Blazor->>Diagram: HTTP Request + JWT
+    Diagram->>DaprState: State operations
+    DaprState->>Redis: Store/Retrieve state
+    Redis-->>DaprState: Response
+    DaprState-->>Diagram: Response
+    Diagram-->>Blazor: Response
+    Blazor-->>User: Display updated diagram
 ```
 
 ## Dapr Components

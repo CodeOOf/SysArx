@@ -275,39 +275,32 @@
 
 ## Component Diagram
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                      Web Browser                             │
-│                     (Blazor Server)                          │
-└───────────────────────┬─────────────────────────────────────┘
-                        │ SignalR/WebSocket
-                        ▼
-┌─────────────────────────────────────────────────────────────┐
-│                   src/web/ (Port 5000)                       │
-│              Blazor Server Application                       │
-│  Requirements: FR-07, SR-01, NFR-06                         │
-└────────┬────────────────┬────────────────┬──────────────────┘
-         │                │                │
-         ▼                ▼                ▼
-┌─────────────┐  ┌─────────────┐  ┌─────────────┐
-│    Auth     │  │  SysMLStore │  │ SysMLDiagram│
-│ (Port 5003) │  │ (Port 5001) │  │ (Port 5002) │
-│             │  │             │  │             │
-│ FR-01 to 04 │  │   FR-05     │  │   FR-06     │
-│ SEC-01,02   │  │   SR-03     │  │   SR-04     │
-└──────┬──────┘  └──────┬──────┘  └──────┬──────┘
-       │                │                │
-       ▼                ▼                ▼
-┌─────────────┐  ┌─────────────┐  ┌─────────────┐
-│    LDAP/    │  │   MongoDB   │  │    Redis    │
-│     SSO     │  │   IF-01     │  │   IF-02     │
-│ IF-04, 05   │  │             │  │             │
-└─────────────┘  └─────────────┘  └─────────────┘
-                        
-┌─────────────────────────────────────────────────────────────┐
-│                    Infrastructure Layer                      │
-│  RabbitMQ (IF-03) │ Seq Logging (FR-10) │ Dapr Runtime     │
-└─────────────────────────────────────────────────────────────┘
+```mermaid
+graph TB
+    Browser[Web Browser<br/>Blazor Server]
+    
+    Browser -->|SignalR/WebSocket| Web[src/web/<br/>Port 5000<br/>Blazor Server Application<br/>FR-08, SR-01, NFR-06]
+    
+    Web -->|HTTP| Auth[Auth<br/>Port 5003<br/>FR-01 to 04<br/>SEC-01,02]
+    Web -->|HTTP| Store[SysMLStore<br/>Port 5001<br/>FR-05, SR-03]
+    Web -->|HTTP| Diagram[SysMLDiagram<br/>Port 5002<br/>FR-06, FR-07, SR-04]
+    
+    Auth --> LDAP[LDAP/SSO<br/>IF-04, IF-05]
+    Store --> MongoDB[MongoDB<br/>IF-01]
+    Diagram --> Redis[Redis<br/>IF-02]
+    
+    Store -.->|Pub/Sub| Infra[Infrastructure Layer<br/>RabbitMQ IF-03<br/>Seq Logging FR-11<br/>Dapr Runtime]
+    Diagram -.->|Pub/Sub| Infra
+    
+    style Browser fill:#e1f5ff
+    style Web fill:#fff4e1
+    style Auth fill:#ffe1e1
+    style Store fill:#e1ffe1
+    style Diagram fill:#f0e1ff
+    style LDAP fill:#e8f8e8
+    style MongoDB fill:#e8f4f8
+    style Redis fill:#ffe8e8
+    style Infra fill:#f5f5f5
 ```
 
 ---
