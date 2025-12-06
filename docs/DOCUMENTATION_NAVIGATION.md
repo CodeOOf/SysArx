@@ -29,7 +29,7 @@ Start here if you want to get SysArx running quickly:
    - Next: → **[docs/DEPLOYMENT_MODES.md](DEPLOYMENT_MODES.md)** - Detailed deployment guide
 
 3. **[docs/DEPLOYMENT_MODES.md](DEPLOYMENT_MODES.md)** - Complete mode configuration
-   - Next: → **[project/CONTRIBUTING.md](../project/CONTRIBUTING.md)** - Development setup
+   - Next: → **[CONTRIBUTING.md](../CONTRIBUTING.md)** - Development setup
 
 ---
 
@@ -67,9 +67,9 @@ Follow this path for verification, validation, and requirements traceability:
 For developers who need architectural and implementation details:
 
 1. **[README.md](../README.md)** - Project overview
-   - Next: → **[project/CONTRIBUTING.md](../project/CONTRIBUTING.md)** - Development setup
+   - Next: → **[CONTRIBUTING.md](../CONTRIBUTING.md)** - Development setup
 
-2. **[project/CONTRIBUTING.md](../project/CONTRIBUTING.md)** - Development environment and workflow
+2. **[CONTRIBUTING.md](../CONTRIBUTING.md)** - Development environment and workflow
    - Next: → **[project/ARCHITECTURE.md](../project/ARCHITECTURE.md)** - System architecture
 
 3. **[project/ARCHITECTURE.md](../project/ARCHITECTURE.md)** - Microservices architecture
@@ -191,7 +191,7 @@ SysArx/
 - **Run tests**: `dotnet test`
 
 ### Development
-- **Getting started**: [project/CONTRIBUTING.md](../project/CONTRIBUTING.md)
+- **Getting started**: [CONTRIBUTING.md](../CONTRIBUTING.md)
 - **Architecture**: [project/ARCHITECTURE.md](../project/ARCHITECTURE.md)
 - **Git workflow**: [project/BRANCH_STRATEGY.md](../project/BRANCH_STRATEGY.md)
 - **Scripts**: [scripts/README.md](../scripts/README.md)
@@ -213,7 +213,7 @@ SysArx/
 | Understand architecture | [project/ARCHITECTURE.md](../project/ARCHITECTURE.md) |
 | See all requirements | [project/REQUIREMENTS.md](../project/REQUIREMENTS.md) |
 | Check test coverage | [reports/TEST_TRACEABILITY.md](../reports/TEST_TRACEABILITY.md) |
-| Contribute code | [project/CONTRIBUTING.md](../project/CONTRIBUTING.md) |
+| Contribute code | [CONTRIBUTING.md](../CONTRIBUTING.md) |
 | Deploy to production | [docs/PRODUCTION_CONFIG.md](PRODUCTION_CONFIG.md) |
 | Set up Keycloak | [docs/KEYCLOAK_SETUP.md](KEYCLOAK_SETUP.md) |
 | Understand V&V | [project/VERIFICATION_VALIDATION.md](../project/VERIFICATION_VALIDATION.md) |

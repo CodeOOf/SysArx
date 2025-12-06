@@ -13,16 +13,6 @@
 
 ---
 
-## 🎯 You Are Here: README.md (Project Overview)
-
-**Next Steps**: 
-- **Quick Start** → [Jump to Quick Start](#quick-start-recommended) or [Authentication Guide](QUICKSTART_AUTH.md)
-- **Requirements & V&V** → [Requirements Matrix](project/REQUIREMENTS_MATRIX.md) (Systems Engineers start here)
-- **Development** → [Contributing Guide](project/CONTRIBUTING.md)
-- **Lost?** → [Documentation Navigation](docs/DOCUMENTATION_NAVIGATION.md) - Find your reading path
-
----
-
 ## About
 
 SysArx is an open-source .NET web application for creating, visualizing, and editing SysML v2 models in the browser. Built following INCOSE Systems Engineering principles with full requirements traceability and V&V support.
@@ -34,6 +24,16 @@ SysArx is an open-source .NET web application for creating, visualizing, and edi
 - Docker-first deployment
 - Full requirements traceability (43 traceable requirements)
 - Automated test coverage with requirement tagging
+
+---
+
+## 🎯 You Are Here: README.md (Project Overview)
+
+**Next Steps**: 
+- **Quick Start** → [Jump to Quick Start](#quick-start-recommended) or [Authentication Guide](QUICKSTART_AUTH.md)
+- **Requirements & V&V** → [Requirements Matrix](project/REQUIREMENTS_MATRIX.md) (Systems Engineers start here)
+- **Development** → [Contributing Guide](CONTRIBUTING.md)
+- **Lost?** → [Documentation Navigation](docs/DOCUMENTATION_NAVIGATION.md) - Find your reading path
 
 ---
 
@@ -302,7 +302,7 @@ We welcome contributions! Areas where you can help:
 - 🐛 Fix bugs and improve stability
 - 📚 Improve documentation
 
-See [Contributing Guide](project/CONTRIBUTING.md) for development setup, testing, and PR process.
+See [Contributing Guide](CONTRIBUTING.md) for development setup, testing, and PR process.
 
 **Quick Links**:
 - [Architecture](project/ARCHITECTURE.md) - System design
@@ -316,7 +316,7 @@ See [Contributing Guide](project/CONTRIBUTING.md) for development setup, testing
 ### Reading Paths
 - **Quick Start**: README → [QUICKSTART_AUTH](QUICKSTART_AUTH.md) → [DEPLOYMENT_MODES](docs/DEPLOYMENT_MODES.md)
 - **V&V Path**: [REQUIREMENTS_MATRIX](project/REQUIREMENTS_MATRIX.md) → [TRACEABILITY](project/TRACEABILITY.md) → [V&V Strategy](project/VERIFICATION_VALIDATION.md)
-- **Developer Path**: [CONTRIBUTING](project/CONTRIBUTING.md) → [ARCHITECTURE](project/ARCHITECTURE.md) → Tests
+- **Developer Path**: [CONTRIBUTING](CONTRIBUTING.md) → [ARCHITECTURE](project/ARCHITECTURE.md) → Tests
 
 **Lost?** See [Documentation Navigation](docs/DOCUMENTATION_NAVIGATION.md) for all reading paths.
 
