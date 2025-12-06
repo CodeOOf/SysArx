@@ -1,0 +1,277 @@
+version: '3.4'
+
+services:
+  # Infrastructure Services
+  mongodb:
+    image: mongo:latest
+    container_name: sysarx-mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin123
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - sysarx-network
+
+  redis:
+    image: redis:alpine
+    container_name: sysarx-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - sysarx-network
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: sysarx-rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - sysarx-network
+
+  seq:
+    image: datalust/seq:latest
+    container_name: sysarx-seq
+    ports:
+      - "5341:80"
+    environment:
+      ACCEPT_EULA: Y
+    networks:
+      - sysarx-network
+
+  # Local LDAP for development
+  openldap:
+    image: osixia/openldap:latest
+    container_name: sysarx-openldap
+    ports:
+      - "389:389"
+      - "636:636"
+    environment:
+      LDAP_ORGANISATION: "SysArx"
+      LDAP_DOMAIN: "sysarx.local"
+      LDAP_ADMIN_PASSWORD: "admin"
+      LDAP_CONFIG_PASSWORD: "config"
+      LDAP_READONLY_USER: "false"
+      LDAP_RFC2307BIS_SCHEMA: "false"
+      LDAP_BACKEND: "mdb"
+      LDAP_TLS: "true"
+      LDAP_TLS_CRT_FILENAME: "ldap.crt"
+      LDAP_TLS_KEY_FILENAME: "ldap.key"
+      LDAP_TLS_DH_PARAM_FILENAME: "dhparam.pem"
+      LDAP_TLS_CA_CRT_FILENAME: "ca.crt"
+      LDAP_TLS_ENFORCE: "false"
+      LDAP_TLS_CIPHER_SUITE: "SECURE256:+SECURE128:-VERS-TLS-ALL:+VERS-TLS1.2:-RSA:-DHE-DSS:-CAMELLIA-128-CBC:-CAMELLIA-256-CBC"
+      LDAP_TLS_VERIFY_CLIENT: "demand"
+      LDAP_REPLICATION: "false"
+      KEEP_EXISTING_CONFIG: "false"
+      LDAP_REMOVE_CONFIG_AFTER_SETUP: "true"
+      LDAP_SSL_HELPER_PREFIX: "ldap"
+    volumes:
+      - ldap_data:/var/lib/ldap
+      - ldap_config:/etc/ldap/slapd.d
+    networks:
+      - sysarx-network
+
+  # LDAP Admin UI for development
+  phpldapadmin:
+    image: osixia/phpldapadmin:latest
+    container_name: sysarx-phpldapadmin
+    ports:
+      - "6443:443"
+    environment:
+      PHPLDAPADMIN_LDAP_HOSTS: openldap
+      PHPLDAPADMIN_HTTPS: "false"
+    depends_on:
+      - openldap
+    networks:
+      - sysarx-network
+
+  # Keycloak SSO (Production-ready)
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.1.1
+    container_name: sysarx-keycloak
+    command: start-dev
+    ports:
+      - "8080:8080"
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://keycloak-db:5432/keycloak
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: keycloak
+      KC_HEALTH_ENABLED: "true"
+      KC_METRICS_ENABLED: "true"
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    depends_on:
+      - keycloak-db
+    networks:
+      - sysarx-network
+    volumes:
+      - keycloak_data:/opt/keycloak/data
+
+  # Keycloak Database
+  keycloak-db:
+    image: postgres:16-alpine
+    container_name: sysarx-keycloak-db
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: keycloak
+    volumes:
+      - keycloak_db_data:/var/lib/postgresql/data
+    networks:
+      - sysarx-network
+
+  # Dapr placement service
+  dapr-placement:
+    image: "daprio/dapr:1.14.4"
+    container_name: sysarx-dapr-placement
+    command: ["./placement", "-port", "50006"]
+    ports:
+      - "50006:50006"
+    networks:
+      - sysarx-network
+
+  # Auth API Service
+  auth-api:
+    image: sysarx/auth.api:latest
+    container_name: sysarx-auth-api
+    build:
+      context: .
+      dockerfile: src/Services/Auth.API/Dockerfile
+    ports:
+      - "5003:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - Seq__ServerUrl=http://seq:80
+      - LdapSettings__Server=openldap
+    depends_on:
+      - openldap
+      - seq
+    networks:
+      - sysarx-network
+
+  # SysMLStore API Service
+  sysmlstore-api:
+    image: sysarx/sysmlstore.api:latest
+    container_name: sysarx-sysmlstore-api
+    build:
+      context: .
+      dockerfile: src/Services/SysMLStore.API/Dockerfile
+    ports:
+      - "5001:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - MongoDbSettings__ConnectionString=mongodb://admin:admin123@mongodb:27017
+      - Seq__ServerUrl=http://seq:80
+    depends_on:
+      - mongodb
+      - rabbitmq
+      - seq
+      - dapr-placement
+    networks:
+      - sysarx-network
+
+  sysmlstore-api-dapr:
+    image: "daprio/daprd:1.14.4"
+    container_name: sysarx-sysmlstore-api-dapr
+    command: [
+      "./daprd",
+      "-app-id", "sysmlstore-api",
+      "-app-port", "8080",
+      "-dapr-http-port", "3500",
+      "-dapr-grpc-port", "50001",
+      "-components-path", "/components",
+      "-config", "/configuration/config.yaml",
+      "-placement-host-address", "dapr-placement:50006"
+    ]
+    volumes:
+      - "./dapr/components:/components"
+      - "./dapr/configuration:/configuration"
+    depends_on:
+      - sysmlstore-api
+    network_mode: "service:sysmlstore-api"
+
+  # SysMLDiagram API Service
+  sysmldiagram-api:
+    image: sysarx/sysmldiagram.api:latest
+    container_name: sysarx-sysmldiagram-api
+    build:
+      context: .
+      dockerfile: src/Services/SysMLDiagram.API/Dockerfile
+    ports:
+      - "5002:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - Seq__ServerUrl=http://seq:80
+    depends_on:
+      - redis
+      - rabbitmq
+      - seq
+      - dapr-placement
+    networks:
+      - sysarx-network
+
+  sysmldiagram-api-dapr:
+    image: "daprio/daprd:1.14.4"
+    container_name: sysarx-sysmldiagram-api-dapr
+    command: [
+      "./daprd",
+      "-app-id", "sysmldiagram-api",
+      "-app-port", "8080",
+      "-dapr-http-port", "3500",
+      "-dapr-grpc-port", "50001",
+      "-components-path", "/components",
+      "-config", "/configuration/config.yaml",
+      "-placement-host-address", "dapr-placement:50006"
+    ]
+    volumes:
+      - "./dapr/components:/components"
+      - "./dapr/configuration:/configuration"
+    depends_on:
+      - sysmldiagram-api
+    network_mode: "service:sysmldiagram-api"
+
+  # Blazor Web App
+  blazor-web:
+    image: sysarx/blazor.web:latest
+    container_name: sysarx-blazor-web
+    build:
+      context: .
+      dockerfile: src/web/Dockerfile
+    ports:
+      - "5000:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - AuthApi=http://auth-api:8080
+      - SysMLStoreApi=http://sysmlstore-api:8080
+      - SysMLDiagramApi=http://sysmldiagram-api:8080
+    depends_on:
+      - auth-api
+      - sysmlstore-api
+      - sysmldiagram-api
+    networks:
+      - sysarx-network
+
+networks:
+  sysarx-network:
+    driver: bridge
+
+volumes:
+  mongodb_data:
+  ldap_data:
+  ldap_config:
+  keycloak_data:
+  keycloak_db_data:
