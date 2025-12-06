@@ -2,9 +2,9 @@
 
 ### Added
 - Initial project setup based on eShopOnDapr architecture
-- SysMLStore.API service with MongoDB for SysML item storage
-- SysMLDiagram.API service with Redis state store via Dapr
-- Auth.API service with LDAP authentication support
+- SysMLStore service with MongoDB for SysML item storage
+- SysMLDiagram service with Redis state store via Dapr
+- Auth service with LDAP authentication support
 - Local development authentication mode with test users
 - Blazor Server web application
 - Docker Compose setup for all services

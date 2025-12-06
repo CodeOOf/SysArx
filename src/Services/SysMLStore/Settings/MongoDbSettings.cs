@@ -1,4 +1,4 @@
-namespace SysArx.Services.SysMLStore.API.Settings;
+namespace SysArx.Services.SysMLStore.Settings;
 
 public class MongoDbSettings
 {

@@ -32,7 +32,7 @@ SysArx is a microservices-based SysML v2 modeling platform deployed via Docker c
       │              │              │
       ▼              ▼              ▼
 ┌──────────┐   ┌──────────┐   ┌──────────┐
-│ Auth.API │   │ SysMLSt  │   │ SysMLDi  │
+│ Auth │   │ SysMLSt  │   │ SysMLDi  │
 │ (5003)   │   │ ore.API  │   │ agram.AP │
 │          │   │ (5001)   │   │ I (5002) │
 │ JWT/LDAP │   │ MongoDB  │   │ Redis    │
@@ -65,19 +65,19 @@ SysArx is a microservices-based SysML v2 modeling platform deployed via Docker c
 - **Purpose**: Interactive UI for SysML modeling
 - **Communication**: SignalR WebSocket to backend
 
-### Auth.API
+### Auth
 - **Port**: 5003
 - **Purpose**: Authentication service
 - **Modes**: Local (test users), LDAP (enterprise), LdapSSO (SSO provider)
 - **Output**: JWT tokens for API authorization
 
-### SysMLStore.API
+### SysMLStore
 - **Port**: 5001
 - **Purpose**: Model persistence
 - **Database**: MongoDB (document storage)
 - **Features**: CRUD operations, model versioning
 
-### SysMLDiagram.API
+### SysMLDiagram
 - **Port**: 5002
 - **Purpose**: Diagram generation
 - **Cache**: Redis via Dapr
@@ -91,17 +91,17 @@ Three deployment modes (see [AUTHENTICATION_REFACTORING.md](../docs/AUTHENTICATI
 
 ### Local Mode
 ```
-User → Auth.API → Test Users (in-memory) → JWT
+User → Auth → Test Users (in-memory) → JWT
 ```
 
 ### LDAP Mode
 ```
-User → Auth.API → LDAP Server → JWT
+User → Auth → LDAP Server → JWT
 ```
 
 ### LdapSSO Mode
 ```
-User → Auth.API → SSO Provider → LDAP Federation → JWT
+User → Auth → SSO Provider → LDAP Federation → JWT
 ```
 
 ---
@@ -110,16 +110,16 @@ User → Auth.API → SSO Provider → LDAP Federation → JWT
 
 ### Model Creation
 ```
-User Input → Blazor UI → SysMLStore.API → MongoDB
+User Input → Blazor UI → SysMLStore → MongoDB
                             ↓
-                         Event → RabbitMQ → SysMLDiagram.API
+                         Event → RabbitMQ → SysMLDiagram
                                                     ↓
                                               Diagram → Redis
 ```
 
 ### Authentication
 ```
-Login → Auth.API → [Local|LDAP|SSO] → JWT → Blazor UI
+Login → Auth → [Local|LDAP|SSO] → JWT → Blazor UI
                                              ↓
                                     Subsequent API calls
 ```

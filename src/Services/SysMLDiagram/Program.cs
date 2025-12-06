@@ -2,7 +2,7 @@ using Serilog;
 using SysArx.BuildingBlocks.EventBus.Extensions;
 using SysArx.BuildingBlocks.Healthchecks.Extensions;
 using SysArx.BuildingBlocks.Authentication.Extensions;
-using SysArx.Services.SysMLDiagram.API.Services;
+using SysArx.Services.SysMLDiagram.Services;
 using AspNetCore.HealthChecks.UI.Client;
 
 var appName = "SysMLDiagram API";

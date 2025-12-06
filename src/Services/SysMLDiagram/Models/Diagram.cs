@@ -1,4 +1,4 @@
-namespace SysArx.Services.SysMLDiagram.API.Models;
+namespace SysArx.Services.SysMLDiagram.Models;
 
 public class DiagramItem
 {

@@ -17,9 +17,9 @@ $ErrorActionPreference = "Stop"
 
 $ConfigPath = "config"
 $Services = @(
-    "src/Services/Auth.API/appsettings.json",
-    "src/Services/SysMLStore.API/appsettings.json",
-    "src/Services/SysMLDiagram.API/appsettings.json",
+    "src/Services/Auth/appsettings.json",
+    "src/Services/SysMLStore/appsettings.json",
+    "src/Services/SysMLDiagram/appsettings.json",
     "src/web/appsettings.json"
 )
 
@@ -73,7 +73,7 @@ function Show-Help {
 }
 
 function Get-CurrentMode {
-    $authApiConfig = "src/Services/Auth.API/appsettings.json"
+    $authApiConfig = "src/Services/Auth/appsettings.json"
     
     if (Test-Path $authApiConfig) {
         $config = Get-Content $authApiConfig -Raw | ConvertFrom-Json

@@ -1,7 +1,7 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace SysArx.Services.SysMLStore.API.Models;
+namespace SysArx.Services.SysMLStore.Models;
 
 public class SysMLItem
 {

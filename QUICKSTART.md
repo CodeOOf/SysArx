@@ -152,13 +152,13 @@ For local development without Docker:
 2. **Run services locally with Dapr:**
    ```bash
    # Terminal 1 - SysMLStore API
-   dapr run --app-id sysmlstore-api --app-port 5001 --dapr-http-port 3500 --components-path ./dapr/components -- dotnet run --project src/Services/SysMLStore.API
+   dapr run --app-id sysmlstore-api --app-port 5001 --dapr-http-port 3500 --components-path ./dapr/components -- dotnet run --project src/Services/SysMLStore
 
    # Terminal 2 - SysMLDiagram API
-   dapr run --app-id sysmldiagram-api --app-port 5002 --dapr-http-port 3501 --components-path ./dapr/components -- dotnet run --project src/Services/SysMLDiagram.API
+   dapr run --app-id sysmldiagram-api --app-port 5002 --dapr-http-port 3501 --components-path ./dapr/components -- dotnet run --project src/Services/SysMLDiagram
 
    # Terminal 3 - Auth API
-   dotnet run --project src/Services/Auth.API
+   dotnet run --project src/Services/Auth
 
    # Terminal 4 - Blazor Web
    dotnet run --project src/web

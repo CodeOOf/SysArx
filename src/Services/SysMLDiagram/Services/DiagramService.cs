@@ -1,7 +1,7 @@
 using Dapr.Client;
-using SysArx.Services.SysMLDiagram.API.Models;
+using SysArx.Services.SysMLDiagram.Models;
 
-namespace SysArx.Services.SysMLDiagram.API.Services;
+namespace SysArx.Services.SysMLDiagram.Services;
 
 public interface IDiagramService
 {

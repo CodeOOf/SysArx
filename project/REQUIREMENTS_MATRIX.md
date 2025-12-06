@@ -29,8 +29,8 @@
 |----|-------------|--------|------|----------------|-------|
 | SR-01 | User-Friendly SysML Modeling | ✅ | Manual | `src/web/` | Blazor UI complete |
 | SR-02 | Enterprise Integration | ✅ | `AuthenticationTests` | `BuildingBlocks/Authentication/` | 3 modes implemented |
-| SR-03 | Model Persistence | ✅ | `ModelStorageTests` | `Services/SysMLStore.API/` | MongoDB CRUD |
-| SR-04 | Diagram Visualization | ✅ | `DiagramTests` | `Services/SysMLDiagram.API/` | Diagram generation |
+| SR-03 | Model Persistence | ✅ | `ModelStorageTests` | `Services/SysMLStore/` | MongoDB CRUD |
+| SR-04 | Diagram Visualization | ✅ | `DiagramTests` | `Services/SysMLDiagram/` | Diagram generation |
 | SR-05 | Performance | 🧪 | `PerformanceTests` | All services | Load testing in progress |
 
 ### Functional Requirements
@@ -41,8 +41,8 @@
 | FR-02 | Authentication - LDAP | ✅ | `LdapMode_ShouldAuthenticateAgainstLdap` | `Authentication/Services/LdapService.cs` | LDAP integration |
 | FR-03 | Authentication - SSO | ✅ | `LdapSsoMode_ShouldAuthenticateViaOIDC` | `Authentication/Extensions/` | OpenID Connect |
 | FR-04 | Mode Switching | ✅ | `ModeSwitching_ShouldChangeAuth` | `Authentication/Settings/` | Config-based switching |
-| FR-05 | Model Storage | ✅ | `Crud_ShouldPersistModels` | `SysMLStore.API/` | MongoDB persistence |
-| FR-06 | Diagram Generation | ✅ | `Generation_ShouldProduceValidDiagram` | `SysMLDiagram.API/` | Diagram service |
+| FR-05 | Model Storage | ✅ | `Crud_ShouldPersistModels` | `SysMLStore/` | MongoDB persistence |
+| FR-06 | Diagram Generation | ✅ | `Generation_ShouldProduceValidDiagram` | `SysMLDiagram/` | Diagram service |
 | FR-07 | Blazor UI | ✅ | `Components_ShouldRenderCorrectly` | `web/Components/` | Interactive UI |
 | FR-08 | API Endpoints | ✅ | `Endpoints_ShouldRespondCorrectly` | All API services | RESTful APIs |
 | FR-09 | Configuration | ✅ | `AppSettings_ShouldLoadCorrectly` | `appsettings.json` | Standard .NET config |
@@ -65,7 +65,7 @@
 
 | ID | Requirement | Status | Test | Implementation | Notes |
 |----|-------------|--------|------|----------------|-------|
-| IF-01 | MongoDB Interface | ✅ | `MongoDB_ShouldConnect` | `SysMLStore.API/` | MongoDB 5.0+ |
+| IF-01 | MongoDB Interface | ✅ | `MongoDB_ShouldConnect` | `SysMLStore/` | MongoDB 5.0+ |
 | IF-02 | Redis Interface | ✅ | `Redis_ShouldStoreState` | Dapr state store | Redis working |
 | IF-03 | RabbitMQ Interface | ✅ | `RabbitMQ_ShouldPublishEvents` | Dapr pub/sub | Event messaging |
 | IF-04 | LDAP Interface | ✅ | `Ldap_ShouldAuthenticate` | `Authentication/` | LDAP v3 |

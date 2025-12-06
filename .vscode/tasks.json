@@ -7,7 +7,7 @@
       "type": "process",
       "args": [
         "build",
-        "${workspaceFolder}/src/Services/SysMLStore.API/SysMLStore.API.csproj",
+        "${workspaceFolder}/src/Services/SysMLStore/SysMLStore.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],
@@ -19,7 +19,7 @@
       "type": "process",
       "args": [
         "build",
-        "${workspaceFolder}/src/Services/SysMLDiagram.API/SysMLDiagram.API.csproj",
+        "${workspaceFolder}/src/Services/SysMLDiagram/SysMLDiagram.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],
@@ -31,7 +31,7 @@
       "type": "process",
       "args": [
         "build",
-        "${workspaceFolder}/src/Services/Auth.API/Auth.API.csproj",
+        "${workspaceFolder}/src/Services/Auth/Auth.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],

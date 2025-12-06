@@ -10,9 +10,9 @@ SHOW_HELP=false
 
 CONFIG_PATH="config"
 SERVICES=(
-    "src/Services/Auth.API/appsettings.json"
-    "src/Services/SysMLStore.API/appsettings.json"
-    "src/Services/SysMLDiagram.API/appsettings.json"
+    "src/Services/Auth/appsettings.json"
+    "src/Services/SysMLStore/appsettings.json"
+    "src/Services/SysMLDiagram/appsettings.json"
     "src/web/appsettings.json"
 )
 
@@ -73,7 +73,7 @@ show_help() {
 }
 
 get_current_mode() {
-    local auth_api_config="src/Services/Auth.API/appsettings.json"
+    local auth_api_config="src/Services/Auth/appsettings.json"
     
     if [ -f "$auth_api_config" ]; then
         local mode=$(jq -r '.Authentication.Mode' "$auth_api_config" 2>/dev/null || echo "Unknown")

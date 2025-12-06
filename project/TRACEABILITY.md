@@ -15,7 +15,7 @@
   - `Settings/AuthenticationSettings.cs` - Configuration model with AuthenticationMode enum
   - `Services/LdapService.cs` - Local test users + LDAP auth + SSO delegation
   - `Extensions/AuthenticationExtensions.cs` - Mode-aware DI registration
-- `src/Services/Auth.API/` - Authentication API service
+- `src/Services/Auth/` - Authentication API service
 - Configuration: `config/appsettings.{Local|Ldap|LdapSSO}.json`
 
 **Tests**: `tests/SysArx.Tests/AuthenticationTests.cs`
@@ -29,7 +29,7 @@
 **Requirements**: FR-05 (NoSQL Storage), SR-03 (Persistence), IF-01 (Document Database)
 
 **Implementation Solution**: MongoDB 5.0+
-- `src/Services/SysMLStore.API/` - Model storage service
+- `src/Services/SysMLStore/` - Model storage service
   - MongoDB .NET driver for document storage
   - CRUD endpoints for .sysml files and model elements
   - Dapr state management abstraction
@@ -48,7 +48,7 @@
 **Requirements**: FR-06 (SysML Parsing), FR-07 (9 Diagram Types), SR-04 (Visualization), IF-02 (State Store)
 
 **Implementation Solution**: Redis + Custom SysML Renderer
-- `src/Services/SysMLDiagram.API/` - Diagram generation service
+- `src/Services/SysMLDiagram/` - Diagram generation service
   - Redis for caching rendered diagrams via Dapr
   - SysML v2 parser for .sysml files
   - Diagram rendering for all 9 types: bdd, ibd, par, pkg, act, sd, stm, uc, req
@@ -290,7 +290,7 @@
          │                │                │
          ▼                ▼                ▼
 ┌─────────────┐  ┌─────────────┐  ┌─────────────┐
-│  Auth.API   │  │ SysMLStore  │  │ SysMLDiagram│
+│  Auth   │  │ SysMLStore  │  │ SysMLDiagram│
 │ (Port 5003) │  │   .API      │  │    .API     │
 │             │  │ (Port 5001) │  │ (Port 5002) │
 │ FR-01 to 04 │  │   FR-05     │  │   FR-06     │
@@ -318,9 +318,9 @@
 src/
 ├── BuildingBlocks/Authentication/     # FR-01 to 04, SEC-01, 02
 ├── Services/
-│   ├── Auth.API/                     # Authentication service
-│   ├── SysMLStore.API/               # FR-05, SR-03, IF-01
-│   └── SysMLDiagram.API/             # FR-06, SR-04, IF-02
+│   ├── Auth/                     # Authentication service
+│   ├── SysMLStore/               # FR-05, SR-03, IF-01
+│   └── SysMLDiagram/             # FR-06, SR-04, IF-02
 └── web/                              # FR-07, SR-01, NFR-06
 
 tests/

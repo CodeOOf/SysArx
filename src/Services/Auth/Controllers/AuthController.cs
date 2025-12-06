@@ -4,7 +4,7 @@ using SysArx.BuildingBlocks.Authentication.Models;
 using SysArx.BuildingBlocks.Authentication.Services;
 using SysArx.BuildingBlocks.Authentication.Settings;
 
-namespace SysArx.Services.Auth.API.Controllers;
+namespace SysArx.Services.Auth.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

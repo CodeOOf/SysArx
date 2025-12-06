@@ -200,14 +200,14 @@ docker-compose up -d
   - Unified LDAP access
 
 ### API Services
-- `src/Services/Auth.API/Controllers/AuthController.cs`
+- `src/Services/Auth/Controllers/AuthController.cs`
   - Added `/api/auth/mode` endpoint
   - Enhanced `/api/auth/test-users` to check mode
   - Logs authentication mode
 
-- `src/Services/Auth.API/appsettings.json`
-- `src/Services/SysMLStore.API/appsettings.json`
-- `src/Services/SysMLDiagram.API/appsettings.json`
+- `src/Services/Auth/appsettings.json`
+- `src/Services/SysMLStore/appsettings.json`
+- `src/Services/SysMLDiagram/appsettings.json`
   - Updated to new configuration structure
 
 ### Blazor Web App

@@ -49,8 +49,8 @@ if (useSso)
 }
 else
 {
-    // Local or Ldap mode: No SSO authentication in Blazor (handled by Auth.API)
-    Console.WriteLine($"Authentication Mode: {authMode} (using Auth.API)");
+    // Local or Ldap mode: No SSO authentication in Blazor (handled by Auth)
+    Console.WriteLine($"Authentication Mode: {authMode} (using Auth)");
 }
 
 // Add services to the container.

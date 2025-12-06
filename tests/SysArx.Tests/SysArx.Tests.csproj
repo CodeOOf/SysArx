@@ -20,9 +20,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\BuildingBlocks\Authentication\Authentication.csproj" />
-    <ProjectReference Include="..\..\src\Services\Auth.API\Auth.API.csproj" />
-    <ProjectReference Include="..\..\src\Services\SysMLStore.API\SysMLStore.API.csproj" />
-    <ProjectReference Include="..\..\src\Services\SysMLDiagram.API\SysMLDiagram.API.csproj" />
+    <ProjectReference Include="..\..\src\Services\Auth\Auth.csproj" />
+    <ProjectReference Include="..\..\src\Services\SysMLStore\SysMLStore.csproj" />
+    <ProjectReference Include="..\..\src\Services\SysMLDiagram\SysMLDiagram.csproj" />
     <ProjectReference Include="..\..\src\web\SysArx.csproj" />
   </ItemGroup>
 

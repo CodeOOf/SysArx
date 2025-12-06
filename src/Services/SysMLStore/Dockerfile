@@ -8,18 +8,18 @@ WORKDIR /src
 
 COPY ["src/BuildingBlocks/EventBus/EventBus.csproj", "src/BuildingBlocks/EventBus/"]
 COPY ["src/BuildingBlocks/Healthchecks/Healthchecks.csproj", "src/BuildingBlocks/Healthchecks/"]
-COPY ["src/Services/SysMLDiagram.API/SysMLDiagram.API.csproj", "src/Services/SysMLDiagram.API/"]
+COPY ["src/Services/SysMLStore/SysMLStore.csproj", "src/Services/SysMLStore/"]
 
-RUN dotnet restore "src/Services/SysMLDiagram.API/SysMLDiagram.API.csproj"
+RUN dotnet restore "src/Services/SysMLStore/SysMLStore.csproj"
 
 COPY . .
-WORKDIR "/src/src/Services/SysMLDiagram.API"
-RUN dotnet build "SysMLDiagram.API.csproj" -c Release -o /app/build
+WORKDIR "/src/src/Services/SysMLStore"
+RUN dotnet build "SysMLStore.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "SysMLDiagram.API.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "SysMLStore.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "SysMLDiagram.API.dll"]
+ENTRYPOINT ["dotnet", "SysMLStore.dll"]

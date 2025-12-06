@@ -15,7 +15,7 @@ This document outlines recommended configurations for deploying SysArx to produc
 
 Update all service appsettings files:
 
-**API Services** (Auth.API, SysMLStore.API, SysMLDiagram.API):
+**API Services** (Auth, SysMLStore, SysMLDiagram):
 ```json
 {
   "KeycloakSettings": {

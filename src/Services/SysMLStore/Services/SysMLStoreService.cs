@@ -1,9 +1,9 @@
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using SysArx.Services.SysMLStore.API.Models;
-using SysArx.Services.SysMLStore.API.Settings;
+using SysArx.Services.SysMLStore.Models;
+using SysArx.Services.SysMLStore.Settings;
 
-namespace SysArx.Services.SysMLStore.API.Services;
+namespace SysArx.Services.SysMLStore.Services;
 
 public interface ISysMLStoreService
 {

@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using SysArx.Services.SysMLStore.API.Models;
-using SysArx.Services.SysMLStore.API.Services;
+using SysArx.Services.SysMLStore.Models;
+using SysArx.Services.SysMLStore.Services;
 
-namespace SysArx.Services.SysMLStore.API.Controllers;
+namespace SysArx.Services.SysMLStore.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

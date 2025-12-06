@@ -98,7 +98,7 @@ Updated README.md to include:
 
 ```
 Local Development Mode (UseKeycloak: false):
-Browser → Blazor Web → Auth.API → LDAP/TestUsers → JWT Token
+Browser → Blazor Web → Auth → LDAP/TestUsers → JWT Token
 
 Production Mode (UseKeycloak: true):
 Browser → Blazor Web → Keycloak → LDAP Federation → OpenID Token

@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using SysArx.Services.SysMLDiagram.API.Models;
-using SysArx.Services.SysMLDiagram.API.Services;
+using SysArx.Services.SysMLDiagram.Models;
+using SysArx.Services.SysMLDiagram.Services;
 
-namespace SysArx.Services.SysMLDiagram.API.Controllers;
+namespace SysArx.Services.SysMLDiagram.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

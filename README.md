@@ -46,9 +46,9 @@ SysArx follows a microservices architecture pattern, providing scalability and m
 | Service | Purpose | Technology | Port |
 |---------|---------|------------|------|
 | **Web** | Interactive browser-based SysML v2 modeling interface | .NET Blazor Server | 5000 |
-| **SysMLStore.API** | Persistent storage for SysML v2 models and elements | MongoDB, .NET | 5001 |
-| **SysMLDiagram.API** | SysML diagram generation | .NET, Redis | 5002 |
-| **Auth.API** | User authentication and authorization | LDAP, JWT | 5003 |
+| **SysMLStore** | Persistent storage for SysML v2 models and elements | MongoDB, .NET | 5001 |
+| **SysMLDiagram** | SysML diagram generation | .NET, Redis | 5002 |
+| **Auth** | User authentication and authorization | LDAP, JWT | 5003 |
 
 ### Infrastructure Components
 
@@ -156,12 +156,12 @@ docker-compose up -d
 
 ## Architecture
 
-2. **SysMLDiagram.API** - Basket-like service for managing diagrams
+2. **SysMLDiagram** - Basket-like service for managing diagrams
    - Uses Redis state store via Dapr
    - Port: 5002
    - Dapr App ID: `sysmldiagram-api`
 
-3. **Auth.API** - Authentication service
+3. **Auth** - Authentication service
    - LDAP integration with local development mode
    - JWT token generation
    - Port: 5003
@@ -225,9 +225,9 @@ SysArx uses a microservices architecture for scalability and maintainability:
 | Service | Purpose | Port |
 |---------|---------|------|
 | **Blazor Web** | Browser-based modeling interface | 5000 |
-| **SysMLStore.API** | SysML model storage (MongoDB) | 5001 |
-| **SysMLDiagram.API** | SysML diagram generation | 5002 |
-| **Auth.API** | Authentication & authorization (LDAP/JWT) | 5003 |
+| **SysMLStore** | SysML model storage (MongoDB) | 5001 |
+| **SysMLDiagram** | SysML diagram generation | 5002 |
+| **Auth** | Authentication & authorization (LDAP/JWT) | 5003 |
 
 **Infrastructure:** MongoDB • Redis • RabbitMQ • Dapr • Seq Logging
 
@@ -260,10 +260,10 @@ For Windows developers who prefer running services outside Docker:
 docker-compose up mongodb redis rabbitmq seq -d
 
 # Run services in separate terminals
-dotnet run --project src/Services/Auth.API
+dotnet run --project src/Services/Auth
 dotnet run --project src/web
-dapr run --app-id sysmlstore-api --app-port 5001 --components-path ./dapr/components -- dotnet run --project src/Services/SysMLStore.API
-dapr run --app-id sysmldiagram-api --app-port 5002 --components-path ./dapr/components -- dotnet run --project src/Services/SysMLDiagram.API
+dapr run --app-id sysmlstore-api --app-port 5001 --components-path ./dapr/components -- dotnet run --project src/Services/SysMLStore
+dapr run --app-id sysmldiagram-api --app-port 5002 --components-path ./dapr/components -- dotnet run --project src/Services/SysMLDiagram
 ```
 
 > **Note:** Docker deployment is the primary and recommended approach. Local development outside containers is provided as an option for specific development workflows on Windows.

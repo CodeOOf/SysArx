@@ -2,8 +2,8 @@ using Serilog;
 using SysArx.BuildingBlocks.EventBus.Extensions;
 using SysArx.BuildingBlocks.Healthchecks.Extensions;
 using SysArx.BuildingBlocks.Authentication.Extensions;
-using SysArx.Services.SysMLStore.API.Services;
-using SysArx.Services.SysMLStore.API.Settings;
+using SysArx.Services.SysMLStore.Services;
+using SysArx.Services.SysMLStore.Settings;
 using AspNetCore.HealthChecks.UI.Client;
 
 var appName = "SysMLStore API";

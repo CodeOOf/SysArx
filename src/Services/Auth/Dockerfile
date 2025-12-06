@@ -8,18 +8,18 @@ WORKDIR /src
 
 COPY ["src/BuildingBlocks/Authentication/Authentication.csproj", "src/BuildingBlocks/Authentication/"]
 COPY ["src/BuildingBlocks/Healthchecks/Healthchecks.csproj", "src/BuildingBlocks/Healthchecks/"]
-COPY ["src/Services/Auth.API/Auth.API.csproj", "src/Services/Auth.API/"]
+COPY ["src/Services/Auth/Auth.csproj", "src/Services/Auth/"]
 
-RUN dotnet restore "src/Services/Auth.API/Auth.API.csproj"
+RUN dotnet restore "src/Services/Auth/Auth.csproj"
 
 COPY . .
-WORKDIR "/src/src/Services/Auth.API"
-RUN dotnet build "Auth.API.csproj" -c Release -o /app/build
+WORKDIR "/src/src/Services/Auth"
+RUN dotnet build "Auth.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Auth.API.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "Auth.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Auth.API.dll"]
+ENTRYPOINT ["dotnet", "Auth.dll"]

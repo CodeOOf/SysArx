@@ -37,9 +37,9 @@ Access: http://localhost:5000
 src/
 ├── BuildingBlocks/Authentication/    # Shared auth library
 ├── Services/                         # Microservices
-│   ├── Auth.API/
-│   ├── SysMLStore.API/
-│   └── SysMLDiagram.API/
+│   ├── Auth/
+│   ├── SysMLStore/
+│   └── SysMLDiagram/
 └── web/                              # Blazor frontend
 
 tests/
