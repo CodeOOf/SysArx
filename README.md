@@ -25,15 +25,43 @@ SysArx is an open-source .NET web application for creating, visualizing, and edi
 - Full requirements traceability with V&V support
 - Automated test coverage with requirement tagging
 
+**Getting Started**:
+- 🚀 [Quick Start](#quick-start) - Get running in 5 minutes
+- 🔧 [Contributing](CONTRIBUTING.md) - Start developing
+- 📋 [Requirements Matrix](project/REQUIREMENTS_MATRIX.md) - Systems Engineers start here
+- 📖 [Full Documentation](docs/DOCUMENTATION_NAVIGATION.md)
+
 ---
 
-## 🎯 You Are Here: README.md (Project Overview)
+## Quick Start
 
-**Next Steps**: 
-- **Quick Start** → [Jump to Quick Start](#quick-start-recommended) or [Authentication Guide](QUICKSTART_AUTH.md)
-- **Requirements & V&V** → [Requirements Matrix](project/REQUIREMENTS_MATRIX.md) (Systems Engineers start here)
-- **Development** → [Contributing Guide](CONTRIBUTING.md)
-- **Lost?** → [Documentation Navigation](docs/DOCUMENTATION_NAVIGATION.md) - Find your reading path
+### Prerequisites
+
+- **Docker & Docker Compose** - Primary deployment platform
+- .NET 10.0 SDK (optional, for local development outside containers)
+
+### Run with Docker
+
+```bash
+# Clone the repository
+git clone https://github.com/CodeOOf/SysArx.git
+cd SysArx
+
+# Start all services (Local mode by default)
+docker-compose up -d
+```
+
+**Access the application:**
+- Web UI: http://localhost:5000
+- API Swagger (Auth): http://localhost:5003/swagger
+- API Swagger (Store): http://localhost:5001/swagger  
+- API Swagger (Diagram): http://localhost:5002/swagger
+
+**Default test user (Local mode):**
+- Username: `admin`
+- Password: `admin123`
+
+> 📖 See [QUICKSTART.md](QUICKSTART.md) for detailed setup and [QUICKSTART_AUTH.md](QUICKSTART_AUTH.md) for authentication modes
 
 ---
 
@@ -139,7 +167,7 @@ docker-compose up -d
 
 ---
 
-## 📋 Requirements & Verification
+## Requirements & Verification
 
 **Systems Engineers**: Start with [Requirements Matrix](project/REQUIREMENTS_MATRIX.md) for complete V&V status.
 
@@ -151,87 +179,6 @@ docker-compose up -d
 | [VERIFICATION_VALIDATION.md](project/VERIFICATION_VALIDATION.md) | V&V strategy |
 
 **Test a requirement**: `dotnet test --filter "RequirementId=FR-01"`
-
----
-
-## Architecture
-
-2. **SysMLDiagram** - Basket-like service for managing diagrams
-   - Uses Redis state store via Dapr
-   - Port: 5002
-   - Dapr App ID: `sysmldiagram-api`
-
-3. **Auth** - Authentication service
-   - LDAP integration with local development mode
-   - JWT token generation
-   - Port: 5003
-
-4. **Blazor Web** - Front-end application
-   - Server-side Blazor
-   - Port: 5000
-
-### Infrastructure
-
-- **MongoDB** - NoSQL database for SysMLStore
-- **Redis** - State store and caching (via Dapr)
-- **RabbitMQ** - Message broker for pub/sub (via Dapr)
-- **OpenLDAP** - LDAP server for authentication (local dev)
-- **phpLDAPadmin** - LDAP management UI (port 6443)
-- **Seq** - Centralized logging (port 5341)
-- **Dapr** - Distributed application runtime
-
-## Quick Start
-
-### Prerequisites
-
-- **Docker & Docker Compose** - Primary deployment platform
-- .NET 10.0 SDK (optional, for local development outside containers)
-
-### Run with Docker (Recommended)
-
-```bash
-# Clone the repository
-git clone https://github.com/CodeOOf/SysArx.git
-cd SysArx
-
-# Start all services (Local mode by default)
-docker-compose up -d
-
-# Or build and start
-docker-compose up --build -d
-```
-
-**Access the application:**
-- Web UI: http://localhost:5000
-- API Swagger Docs: 
-  - Auth API: http://localhost:5003/swagger
-  - SysML Store API: http://localhost:5001/swagger
-  - SysML Diagram API: http://localhost:5002/swagger
-
-**Default test user (Local mode):**
-- Username: `admin`
-- Password: `admin123`
-
-> 📖 See [QUICKSTART.md](QUICKSTART.md) for detailed instructions
-> 
-> 💡 **Deployment:** SysArx runs in Docker containers. Windows-specific scripts are provided as development helpers for Windows developers but are not required for deployment.
-
----
-
-## Architecture
-
-SysArx uses a microservices architecture for scalability and maintainability:
-
-| Service | Purpose | Port |
-|---------|---------|------|
-| **Blazor Web** | Browser-based modeling interface | 5000 |
-| **SysMLStore** | SysML model storage (MongoDB) | 5001 |
-| **SysMLDiagram** | SysML diagram generation | 5002 |
-| **Auth** | Authentication & authorization (LDAP/JWT) | 5003 |
-
-**Infrastructure:** MongoDB • Redis • RabbitMQ • Dapr • Seq Logging
-
-> 💡 Inspired by [eShopOnDapr](https://github.com/dotnet-architecture/eShopOnDapr), adapted for systems engineering
 
 ---
 
@@ -281,7 +228,7 @@ src/
 
 ## Authentication
 
-**Test Users (Development Mode):**
+**Test Users (Local Mode):**
 
 | Username | Password | Role |
 |----------|----------|------|
@@ -311,7 +258,7 @@ See [Contributing Guide](CONTRIBUTING.md) for development setup, testing, and PR
 
 ---
 
-## 📖 Documentation
+## Documentation
 
 ### Reading Paths
 - **Quick Start**: README → [QUICKSTART_AUTH](QUICKSTART_AUTH.md) → [DEPLOYMENT_MODES](docs/DEPLOYMENT_MODES.md)
