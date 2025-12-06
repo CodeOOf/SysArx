@@ -1,6 +1,8 @@
 using SysArx.Components;
+using SysArx.Services;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -52,6 +54,12 @@ else
     // Local or Ldap mode: No SSO authentication in Blazor (handled by Auth)
     Console.WriteLine($"Authentication Mode: {authMode} (using Auth)");
 }
+
+// Register authentication state service
+builder.Services.AddScoped<AuthenticationStateService>();
+builder.Services.AddScoped<AuthenticationStateProvider>(sp => sp.GetRequiredService<AuthenticationStateService>());
+builder.Services.AddCascadingAuthenticationState();
+builder.Services.AddAuthorization();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()

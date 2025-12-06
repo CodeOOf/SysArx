@@ -1,0 +1,153 @@
+@page "/login"
+@inject IHttpClientFactory HttpClientFactory
+@inject NavigationManager Navigation
+@inject SysArx.Services.AuthenticationStateService AuthService
+@using System.ComponentModel.DataAnnotations
+
+<PageTitle>Login - SysArx</PageTitle>
+<link href="login.css" rel="stylesheet" />
+
+<div class="login-container">
+    <div class="login-box">
+        <div class="login-header">
+            <h1>SysArx</h1>
+            <p>Systems Architecture Platform</p>
+        </div>
+
+        @if (!string.IsNullOrEmpty(errorMessage))
+        {
+            <div class="alert alert-danger" role="alert">
+                @errorMessage
+            </div>
+        }
+
+        <EditForm Model="loginModel" OnValidSubmit="HandleLogin" FormName="loginForm">
+            <DataAnnotationsValidator />
+            
+            <div class="form-group">
+                <label for="username">
+                    <i class="bi bi-person"></i> Username
+                </label>
+                <InputText id="username" 
+                          class="form-control" 
+                          @bind-Value="loginModel.Username" 
+                          placeholder="Enter your username" />
+                <ValidationMessage For="@(() => loginModel.Username)" />
+            </div>
+
+            <div class="form-group">
+                <label for="password">
+                    <i class="bi bi-lock"></i> Password
+                </label>
+                <InputText id="password" 
+                          type="password" 
+                          class="form-control" 
+                          @bind-Value="loginModel.Password" 
+                          placeholder="Enter your password" />
+                <ValidationMessage For="@(() => loginModel.Password)" />
+            </div>
+
+            <div class="form-options">
+                <div class="form-check">
+                    <InputCheckbox id="rememberMe" 
+                                  class="form-check-input" 
+                                  @bind-Value="loginModel.RememberMe" />
+                    <label class="form-check-label" for="rememberMe">
+                        Remember me
+                    </label>
+                </div>
+                <a href="#" class="forgot-password">Forgot password?</a>
+            </div>
+
+            <button type="submit" class="btn btn-login" disabled="@isLoading">
+                @if (isLoading)
+                {
+                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                    <span>Signing in...</span>
+                }
+                else
+                {
+                    <span>Sign In</span>
+                }
+            </button>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    [SupplyParameterFromForm]
+    private LoginModel loginModel { get; set; } = null!;
+    
+    [SupplyParameterFromQuery]
+    private string? ReturnUrl { get; set; }
+
+    private bool isLoading = false;
+    private string errorMessage = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        loginModel ??= new LoginModel();
+    }
+
+    private async Task HandleLogin()
+    {
+        isLoading = true;
+        errorMessage = string.Empty;
+        
+        try
+        {
+            var client = HttpClientFactory.CreateClient("AuthAPI");
+            var response = await client.PostAsJsonAsync("/api/auth/login", new
+            {
+                username = loginModel.Username,
+                password = loginModel.Password
+            });
+
+            if (response.IsSuccessStatusCode)
+            {
+                var result = await response.Content.ReadFromJsonAsync<LoginResponse>();
+                if (result?.Token != null)
+                {
+                    await AuthService.SetAuthenticationAsync(result.Token, loginModel.Username, loginModel.RememberMe);
+                    
+                    // Navigate to return URL or home
+                    var redirectUrl = !string.IsNullOrEmpty(ReturnUrl) ? ReturnUrl : "/";
+                    Navigation.NavigateTo(redirectUrl, forceLoad: true);
+                }
+                else
+                {
+                    errorMessage = "Invalid response from authentication service.";
+                }
+            }
+            else
+            {
+                errorMessage = "Invalid username or password.";
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"An error occurred: {ex.Message}";
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    public class LoginModel
+    {
+        [Required(ErrorMessage = "Username is required")]
+        public string Username { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Password is required")]
+        public string Password { get; set; } = string.Empty;
+
+        public bool RememberMe { get; set; } = false;
+    }
+
+    private class LoginResponse
+    {
+        public string? Token { get; set; }
+        public string? Username { get; set; }
+    }
+}
