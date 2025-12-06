@@ -32,10 +32,10 @@ SysArx is a microservices-based SysML v2 modeling platform deployed via Docker c
       │              │              │
       ▼              ▼              ▼
 ┌──────────┐   ┌──────────┐   ┌──────────┐
-│ Auth │   │ SysMLSt  │   │ SysMLDi  │
-│ (5003)   │   │ ore.API  │   │ agram.AP │
-│          │   │ (5001)   │   │ I (5002) │
-│ JWT/LDAP │   │ MongoDB  │   │ Redis    │
+│   Auth   │   │ SysMLSt  │   │ SysMLDi  │
+│ (5003)   │   │   ore    │   │  agram   │
+│          │   │ (5001)   │   │ (5002)   │
+│ JWT/LDAP │   │ MongoDB  │   │  Redis   │
 │ /SSO     │   │ Models   │   │ Diagrams │
 └────┬─────┘   └────┬─────┘   └────┬─────┘
      │              │              │
