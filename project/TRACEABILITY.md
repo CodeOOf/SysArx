@@ -24,22 +24,31 @@
 
 ---
 
-### Model Storage (FR-05, SR-03, IF-01)
+### Model Storage (FR-05, FR-05a, FR-05b, SR-03, IF-01)
 
-**Requirements**: FR-05 (NoSQL Storage), SR-03 (Persistence), IF-01 (Document Database)
+**Requirements**: FR-05 (NoSQL Storage), FR-05a (Pluggable Storage Providers), FR-05b (Config-based Selection), SR-03 (Persistence), IF-01 (Document Database)
 
-**Implementation Solution**: MongoDB 5.0+
-- `src/Services/SysMLStore/` - Model storage service
-  - MongoDB .NET driver for document storage
-  - CRUD endpoints for .sysml files and model elements
-  - Dapr state management abstraction
+**Implementation Solution**: Pluggable storage architecture with three backends
+- `src/Services/SysMLStore/Storage/` - Storage abstraction layer
+  - `IStorageProvider.cs` - Storage provider interface
+  - `NoSqlStorageProvider.cs` - MongoDB implementation (default)
+  - `GitHubStorageProvider.cs` - GitHub repository storage
+  - `GitLabStorageProvider.cs` - GitLab repository storage
+- `src/Services/SysMLStore/Settings/StorageSettings.cs` - Configuration model
 - `docker-compose.yml` - MongoDB container service definition
 
-**Rationale**: MongoDB chosen for schema flexibility suitable for evolving SysML v2 models. Document-oriented storage maps naturally to .sysml file structure.
+**Configuration**: `src/Services/SysMLStore/appsettings.json` - Provider selection via `Storage:Provider`
 
-**Tests**: `tests/SysArx.Tests/ModelStorageTests.cs`
+**Rationale**: 
+- MongoDB chosen as default for schema flexibility suitable for evolving SysML v2 models
+- GitHub/GitLab storage enables version control and collaboration workflows
+- Storage abstraction allows switching backends without code changes
 
-**Architecture Decision**: MongoDB for document storage with Dapr abstraction layer enabling future state store migration if needed.
+**Tests**: 
+- `tests/SysArx.Tests/ModelStorageTests.cs`
+- `tests/SysArx.Tests/StorageProviderTests.cs` (Future)
+
+**Architecture Decision**: Strategy pattern with dependency injection for storage providers. Configuration-based provider selection at startup enables deployment-time decisions without rebuilding.
 
 ---
 

@@ -15,7 +15,7 @@ SysArx requirements follow INCOSE Systems Engineering principles with full trace
 ## Requirement Categories
 
 - **SR**: Stakeholder Requirements (5)
-- **FR**: Functional Requirements (11)
+- **FR**: Functional Requirements (13)
 - **NFR**: Non-Functional Requirements (8)
 - **IF**: Interface Requirements (5)
 - **SEC**: Security Requirements (6)
@@ -45,6 +45,8 @@ SysArx requirements follow INCOSE Systems Engineering principles with full trace
 | **FR-03** | OpenID Connect/OAuth2 SSO with LDAP federation | SR-02 | `LdapSsoMode_ShouldAuthenticateViaOIDC` |
 | **FR-04** | Config-based authentication mode switching | SR-02 | `ModeSwitching_ShouldChangeAuth` |
 | **FR-05** | Persistent NoSQL storage (CRUD) for .sysml files | SR-03 | `Crud_ShouldPersistModels` |
+| **FR-05a** | Pluggable storage providers: NoSQL (default), GitHub, GitLab | SR-03 | `StorageProviders_ShouldSwitchBackends` |
+| **FR-05b** | Config-based storage backend selection | SR-03 | `StorageConfig_ShouldChangeProvider` |
 | **FR-06** | Parse and validate .sysml files per OMG SysML v2 spec | SR-04 | `Parser_ShouldValidateSysMLFiles` |
 | **FR-07** | Generate 9 SysML diagram types: bdd, ibd, par, pkg, act, sd, stm, uc, req + Allocation Tables | SR-04 | `DiagramGeneration_ShouldSupportAllTypes` |
 | **FR-08** | Interactive web UI components for model editing | SR-01 | `Components_ShouldRenderCorrectly` |
@@ -122,13 +124,13 @@ SysArx requirements follow INCOSE Systems Engineering principles with full trace
 | Category | Total | Critical | High | Medium |
 |----------|-------|----------|------|--------|
 | SR | 5 | 3 | 2 | 0 |
-| FR | 11 | 1 | 8 | 2 |
+| FR | 13 | 1 | 10 | 2 |
 | NFR | 8 | 1 | 3 | 4 |
 | IF | 5 | 1 | 4 | 0 |
 | SEC | 6 | 4 | 1 | 1 |
 | DEP | 5 | 1 | 3 | 1 |
 | CON | 4 | 2 | 2 | 0 |
-| **Total** | **44** | **13** | **23** | **8** |
+| **Total** | **46** | **13** | **25** | **8** |
 
 ---
 

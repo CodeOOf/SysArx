@@ -1,7 +1,5 @@
-using Microsoft.Extensions.Options;
-using MongoDB.Driver;
 using SysArx.Services.SysMLStore.Models;
-using SysArx.Services.SysMLStore.Settings;
+using SysArx.Services.SysMLStore.Storage;
 
 namespace SysArx.Services.SysMLStore.Services;
 
@@ -13,55 +11,57 @@ public interface ISysMLStoreService
     Task<SysMLItem> CreateAsync(SysMLItem item);
     Task UpdateAsync(string id, SysMLItem item);
     Task DeleteAsync(string id);
+    string GetStorageProvider();
 }
 
+/// <summary>
+/// SysML Store Service with pluggable storage backends.
+/// Delegates storage operations to the configured IStorageProvider.
+/// </summary>
 public class SysMLStoreService : ISysMLStoreService
 {
-    private readonly IMongoCollection<SysMLItem> _items;
+    private readonly IStorageProvider _storageProvider;
     private readonly ILogger<SysMLStoreService> _logger;
 
-    public SysMLStoreService(IOptions<MongoDbSettings> settings, ILogger<SysMLStoreService> logger)
+    public SysMLStoreService(IStorageProvider storageProvider, ILogger<SysMLStoreService> logger)
     {
-        var client = new MongoClient(settings.Value.ConnectionString);
-        var database = client.GetDatabase(settings.Value.DatabaseName);
-        _items = database.GetCollection<SysMLItem>(settings.Value.CollectionName);
+        _storageProvider = storageProvider;
         _logger = logger;
+        _logger.LogInformation("SysMLStoreService initialized with {Provider} storage provider", _storageProvider.ProviderType);
     }
 
     public async Task<List<SysMLItem>> GetAllAsync()
     {
-        return await _items.Find(_ => true).ToListAsync();
+        return await _storageProvider.GetAllAsync();
     }
 
     public async Task<SysMLItem?> GetByIdAsync(string id)
     {
-        return await _items.Find(item => item.Id == id).FirstOrDefaultAsync();
+        return await _storageProvider.GetByIdAsync(id);
     }
 
     public async Task<List<SysMLItem>> GetByTypeAsync(string type)
     {
-        return await _items.Find(item => item.Type == type).ToListAsync();
+        return await _storageProvider.GetByTypeAsync(type);
     }
 
     public async Task<SysMLItem> CreateAsync(SysMLItem item)
     {
-        item.CreatedDate = DateTime.UtcNow;
-        item.ModifiedDate = DateTime.UtcNow;
-        await _items.InsertOneAsync(item);
-        _logger.LogInformation("Created SysML item with ID: {ItemId}", item.Id);
-        return item;
+        return await _storageProvider.CreateAsync(item);
     }
 
     public async Task UpdateAsync(string id, SysMLItem item)
     {
-        item.ModifiedDate = DateTime.UtcNow;
-        await _items.ReplaceOneAsync(x => x.Id == id, item);
-        _logger.LogInformation("Updated SysML item with ID: {ItemId}", id);
+        await _storageProvider.UpdateAsync(id, item);
     }
 
     public async Task DeleteAsync(string id)
     {
-        await _items.DeleteOneAsync(item => item.Id == id);
-        _logger.LogInformation("Deleted SysML item with ID: {ItemId}", id);
+        await _storageProvider.DeleteAsync(id);
+    }
+
+    public string GetStorageProvider()
+    {
+        return _storageProvider.ProviderType;
     }
 }

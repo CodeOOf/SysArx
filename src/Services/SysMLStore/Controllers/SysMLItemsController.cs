@@ -17,6 +17,12 @@ public class SysMLItemsController : ControllerBase
         _logger = logger;
     }
 
+    [HttpGet("provider")]
+    public ActionResult<string> GetStorageProvider()
+    {
+        return Ok(new { provider = _storeService.GetStorageProvider() });
+    }
+
     [HttpGet]
     public async Task<ActionResult<List<SysMLItem>>> GetAll()
     {

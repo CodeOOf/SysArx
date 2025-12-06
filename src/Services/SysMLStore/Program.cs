@@ -4,6 +4,7 @@ using SysArx.BuildingBlocks.Healthchecks.Extensions;
 using SysArx.BuildingBlocks.Authentication.Extensions;
 using SysArx.Services.SysMLStore.Services;
 using SysArx.Services.SysMLStore.Settings;
+using SysArx.Services.SysMLStore.Storage;
 using AspNetCore.HealthChecks.UI.Client;
 
 var appName = "SysMLStore API";
@@ -25,9 +26,33 @@ builder.Host.UseSerilog((context, services, configuration) => configuration
 // Add authentication
 builder.Services.AddSysArxAuthentication(builder.Configuration);
 
-// Add services
+// Add storage configuration
+builder.Services.Configure<StorageSettings>(
+    builder.Configuration.GetSection("Storage"));
+
+// Configure MongoDB settings if using NoSQL storage
 builder.Services.Configure<MongoDbSettings>(
     builder.Configuration.GetSection("MongoDbSettings"));
+
+// Register storage provider based on configuration
+var storageProvider = builder.Configuration.GetValue<string>("Storage:Provider") ?? "NoSQL";
+Console.WriteLine($"Storage Provider: {storageProvider}");
+
+switch (storageProvider.ToLower())
+{
+    case "github":
+        builder.Services.AddHttpClient("GitHub");
+        builder.Services.AddSingleton<IStorageProvider, GitHubStorageProvider>();
+        break;
+    case "gitlab":
+        builder.Services.AddHttpClient("GitLab");
+        builder.Services.AddSingleton<IStorageProvider, GitLabStorageProvider>();
+        break;
+    case "nosql":
+    default:
+        builder.Services.AddSingleton<IStorageProvider, NoSqlStorageProvider>();
+        break;
+}
 
 builder.Services.AddSingleton<ISysMLStoreService, SysMLStoreService>();
 builder.Services.AddDaprClient();
