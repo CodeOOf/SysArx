@@ -28,7 +28,7 @@ graph TB
     Web -->|HTTP| Store[SysMLStore<br/>Port 5001<br/>MongoDB Models]
     Web -->|HTTP| Diagram[SysMLDiagram<br/>Port 5002<br/>Redis Diagrams]
     
-    Auth --> Dapr[Dapr Runtime<br/>State Store | Pub/Sub | Service Invocation]
+    Auth --> Dapr[Dapr Runtime<br/>State Store, Pub/Sub, Service Invocation]
     Store --> Dapr
     Diagram --> Dapr
     
