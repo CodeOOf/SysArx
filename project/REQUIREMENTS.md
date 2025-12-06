@@ -10,8 +10,6 @@
 
 SysArx requirements follow INCOSE Systems Engineering principles with full traceability. Each requirement is tagged for automated test verification.
 
-**Total**: 44 requirements across 7 categories
-
 ---
 
 ## Requirement Categories

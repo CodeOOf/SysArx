@@ -28,7 +28,7 @@
 | ID | Requirement | Status | Test | Implementation | Notes |
 |----|-------------|--------|------|----------------|-------|
 | SR-01 | User-Friendly SysML Modeling | ✅ | Manual | `src/web/` | Blazor UI complete |
-| SR-02 | Enterprise Integration | ✅ | `AuthenticationTests` | `BuildingBlocks/Authentication/` | 3 modes implemented |
+| SR-02 | Enterprise Integration | ✅ | `AuthenticationTests` | `BuildingBlocks/Authentication/` | Local, LDAP, SSO modes |
 | SR-03 | Model Persistence | ✅ | `ModelStorageTests` | `Services/SysMLStore/` | MongoDB CRUD |
 | SR-04 | Diagram Visualization | ✅ | `DiagramTests` | `Services/SysMLDiagram/` | Diagram generation |
 | SR-05 | Performance | 🧪 | `PerformanceTests` | All services | Load testing in progress |

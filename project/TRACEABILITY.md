@@ -45,13 +45,13 @@
 
 ### Diagram Generation (FR-06, FR-07, SR-04, IF-02)
 
-**Requirements**: FR-06 (SysML Parsing), FR-07 (9 Diagram Types), SR-04 (Visualization), IF-02 (State Store)
+**Requirements**: FR-06 (SysML Parsing), FR-07 (SysML Diagram Types), SR-04 (Visualization), IF-02 (State Store)
 
 **Implementation Solution**: Redis + Custom SysML Renderer
 - `src/Services/SysMLDiagram/` - Diagram generation service
   - Redis for caching rendered diagrams via Dapr
   - SysML v2 parser for .sysml files
-  - Diagram rendering for all 9 types: bdd, ibd, par, pkg, act, sd, stm, uc, req
+  - Diagram rendering for all SysML v2 diagram types: bdd, ibd, par, pkg, act, sd, stm, uc, req, and Allocation Tables
   - Allocation Table generator
 - `docker-compose.yml` - Redis container service definition
 

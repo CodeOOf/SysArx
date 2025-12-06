@@ -15,7 +15,7 @@
 ## Technical Documentation
 
 ### Authentication & Security
-- [AUTHENTICATION_REFACTORING.md](AUTHENTICATION_REFACTORING.md) - Auth system design (3 modes)
+- [AUTHENTICATION_REFACTORING.md](AUTHENTICATION_REFACTORING.md) - Auth system design
 - [DEPLOYMENT_MODES.md](DEPLOYMENT_MODES.md) - Local, Ldap, LdapSSO modes
 - [KEYCLOAK_SETUP.md](KEYCLOAK_SETUP.md) - SSO configuration guide
 - [KEYCLOAK_QUICKREF.md](KEYCLOAK_QUICKREF.md) - Quick SSO reference

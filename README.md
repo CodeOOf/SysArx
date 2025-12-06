@@ -22,7 +22,7 @@ SysArx is an open-source .NET web application for creating, visualizing, and edi
 - Microservices architecture (Blazor, MongoDB, Redis, RabbitMQ)
 - Flexible authentication (Local, LDAP, SSO)
 - Docker-first deployment
-- Full requirements traceability (43 traceable requirements)
+- Full requirements traceability with V&V support
 - Automated test coverage with requirement tagging
 
 ---
@@ -322,7 +322,7 @@ See [Contributing Guide](CONTRIBUTING.md) for development setup, testing, and PR
 
 ### Key Documents
 - [Requirements Matrix](project/REQUIREMENTS_MATRIX.md) - V&V status ⭐
-- [Requirements Spec](project/REQUIREMENTS.md) - 43 traceable requirements
+- [Requirements Spec](project/REQUIREMENTS.md) - Complete requirements specification
 - [Architecture](project/ARCHITECTURE.md) - System design
 - [Deployment Modes](docs/DEPLOYMENT_MODES.md) - Local, LDAP, SSO
 - [Test Coverage](reports/TEST_TRACEABILITY.md) - Generated test report

@@ -12,7 +12,7 @@ SysArx is a microservices-based SysML v2 modeling platform deployed via Docker c
 - Microservices for scalability
 - Docker-first deployment
 - Event-driven communication (Dapr)
-- Flexible authentication (3 modes)
+- Flexible authentication (Local, LDAP, SSO)
 
 ---
 
