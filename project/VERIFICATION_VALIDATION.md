@@ -197,7 +197,7 @@ A requirement is considered "done" when:
 Every test includes requirement ID:
 - Run specific requirement: `dotnet test --filter "RequirementId=FR-01"`
 - Generate trace report: Auto-generated in `reports/TEST_TRACEABILITY.md`
-- View coverage: See `REQUIREMENTS_MATRIX.md`
+- View coverage: See `../reports/REQUIREMENTS_MATRIX.md`
 
 ---
 

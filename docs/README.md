@@ -7,7 +7,7 @@
 ## Quick Links
 
 - **Start Here**: [DOCUMENTATION_NAVIGATION.md](DOCUMENTATION_NAVIGATION.md) - Find your reading path
-- **Requirements**: [../project/REQUIREMENTS_MATRIX.md](../project/REQUIREMENTS_MATRIX.md) - V&V status
+- **Requirements**: [../reports/REQUIREMENTS_MATRIX.md](../reports/REQUIREMENTS_MATRIX.md) - V&V status
 - **Getting Started**: [../README.md](../README.md) - Project overview
 
 ---
@@ -35,7 +35,7 @@
 
 Located in `../project/`:
 - [REQUIREMENTS.md](../project/REQUIREMENTS.md) - All requirements (43 total)
-- [REQUIREMENTS_MATRIX.md](../project/REQUIREMENTS_MATRIX.md) - V&V matrix ⭐ START HERE
+- [REQUIREMENTS_MATRIX.md](../reports/REQUIREMENTS_MATRIX.md) - V&V matrix ⭐ START HERE
 - [TRACEABILITY.md](../project/TRACEABILITY.md) - Implementation mapping
 - [VERIFICATION_VALIDATION.md](../project/VERIFICATION_VALIDATION.md) - V&V strategy
 - [DEVIATIONS.md](../project/DEVIATIONS.md) - Approved deviations
@@ -50,4 +50,4 @@ Auto-generated in `../reports/`:
 
 ---
 
-**Navigation**: [← README](../README.md) | [Navigation Guide →](DOCUMENTATION_NAVIGATION.md) | [Requirements →](../project/REQUIREMENTS_MATRIX.md)
+**Navigation**: [← README](../README.md) | [Navigation Guide →](DOCUMENTATION_NAVIGATION.md) | [Requirements →](../reports/REQUIREMENTS_MATRIX.md)

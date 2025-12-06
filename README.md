@@ -28,7 +28,7 @@ SysArx is an open-source .NET web application for creating, visualizing, and edi
 **Getting Started**:
 - 🚀 [Quick Start](#quick-start) - Get running in 5 minutes
 - 🔧 [Contributing](CONTRIBUTING.md) - Start developing
-- 📋 [Requirements Matrix](project/REQUIREMENTS_MATRIX.md) - Systems Engineers start here
+- 📋 [Requirements Matrix](reports/REQUIREMENTS_MATRIX.md) - Systems Engineers start here
 - 📖 [Full Documentation](docs/DOCUMENTATION_NAVIGATION.md)
 
 ---
@@ -170,11 +170,11 @@ docker-compose up -d
 
 ## Requirements & Verification
 
-**Systems Engineers**: Start with [Requirements Matrix](project/REQUIREMENTS_MATRIX.md) for complete V&V status.
+**Systems Engineers**: Start with [Requirements Matrix](reports/REQUIREMENTS_MATRIX.md) for complete V&V status.
 
 | Document | Purpose |
 |----------|---------||
-| [REQUIREMENTS_MATRIX.md](project/REQUIREMENTS_MATRIX.md) | ⭐ Central V&V reference - start here |
+| [REQUIREMENTS_MATRIX.md](reports/REQUIREMENTS_MATRIX.md) | ⭐ Central V&V reference - start here |
 | [REQUIREMENTS.md](project/REQUIREMENTS.md) | Detailed requirements (43 total) |
 | [TRACEABILITY.md](project/TRACEABILITY.md) | Requirements-to-code mapping |
 | [VERIFICATION_VALIDATION.md](project/VERIFICATION_VALIDATION.md) | V&V strategy |
@@ -323,13 +323,13 @@ See [Contributing Guide](CONTRIBUTING.md) for development setup, testing, and PR
 
 ### Reading Paths
 - **Quick Start**: README → [QUICKSTART_AUTH](QUICKSTART_AUTH.md) → [DEPLOYMENT_MODES](docs/DEPLOYMENT_MODES.md)
-- **V&V Path**: [REQUIREMENTS_MATRIX](project/REQUIREMENTS_MATRIX.md) → [TRACEABILITY](project/TRACEABILITY.md) → [V&V Strategy](project/VERIFICATION_VALIDATION.md)
+- **V&V Path**: [REQUIREMENTS_MATRIX](reports/REQUIREMENTS_MATRIX.md) → [TRACEABILITY](project/TRACEABILITY.md) → [V&V Strategy](project/VERIFICATION_VALIDATION.md)
 - **Developer Path**: [CONTRIBUTING](CONTRIBUTING.md) → [ARCHITECTURE](project/ARCHITECTURE.md) → Tests
 
 **Lost?** See [Documentation Navigation](docs/DOCUMENTATION_NAVIGATION.md) for all reading paths.
 
 ### Key Documents
-- [Requirements Matrix](project/REQUIREMENTS_MATRIX.md) - V&V status ⭐
+- [Requirements Matrix](reports/REQUIREMENTS_MATRIX.md) - V&V status ⭐
 - [Requirements Spec](project/REQUIREMENTS.md) - Complete requirements specification
 - [Architecture](project/ARCHITECTURE.md) - System design
 - [Deployment Modes](docs/DEPLOYMENT_MODES.md) - Local, LDAP, SSO

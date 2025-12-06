@@ -23,8 +23,8 @@
 2. Include: requirement ID, justification, mitigation, impact
 3. Technical lead review
 4. Product owner approval
-5. Update REQUIREMENTS_MATRIX.md
+5. Update reports/REQUIREMENTS_MATRIX.md (auto-generated)
 
 ---
 
-**Navigation**: [← V&V](VERIFICATION_VALIDATION.md) | [Matrix →](REQUIREMENTS_MATRIX.md)
+**Navigation**: [← V&V](VERIFICATION_VALIDATION.md) | [Matrix →](../reports/REQUIREMENTS_MATRIX.md)

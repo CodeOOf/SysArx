@@ -37,9 +37,9 @@ Start here if you want to get SysArx running quickly:
 Follow this path for verification, validation, and requirements traceability:
 
 1. **[README.md](../README.md)** - Project overview
-   - Next: → **[project/REQUIREMENTS_MATRIX.md](../project/REQUIREMENTS_MATRIX.md)** ⭐ START HERE
+   - Next: → **[reports/REQUIREMENTS_MATRIX.md](../reports/REQUIREMENTS_MATRIX.md)** ⭐ START HERE
 
-2. **[project/REQUIREMENTS_MATRIX.md](../project/REQUIREMENTS_MATRIX.md)** - Central V&V reference
+2. **[reports/REQUIREMENTS_MATRIX.md](../reports/REQUIREMENTS_MATRIX.md)** - Central V&V reference
    - Complete requirements verification matrix with test status
    - Next: → **[project/REQUIREMENTS.md](../project/REQUIREMENTS.md)** - Detailed requirements
 
@@ -184,7 +184,7 @@ SysArx/
 - **Production config**: [docs/PRODUCTION_CONFIG.md](PRODUCTION_CONFIG.md)
 
 ### Requirements & Testing
-- **V&V overview**: [project/REQUIREMENTS_MATRIX.md](../project/REQUIREMENTS_MATRIX.md)
+- **V&V overview**: [reports/REQUIREMENTS_MATRIX.md](../reports/REQUIREMENTS_MATRIX.md)
 - **All requirements**: [project/REQUIREMENTS.md](../project/REQUIREMENTS.md)
 - **Implementation mapping**: [project/TRACEABILITY.md](../project/TRACEABILITY.md)
 - **Test coverage**: [reports/TEST_TRACEABILITY.md](../reports/TEST_TRACEABILITY.md)
@@ -197,7 +197,7 @@ SysArx/
 - **Scripts**: [scripts/README.md](../scripts/README.md)
 
 ### Specific Requirements
-1. Look up in [project/REQUIREMENTS_MATRIX.md](../project/REQUIREMENTS_MATRIX.md)
+1. Look up in [reports/REQUIREMENTS_MATRIX.md](../reports/REQUIREMENTS_MATRIX.md)
 2. See implementation in [project/TRACEABILITY.md](../project/TRACEABILITY.md)
 3. Run tests: `dotnet test --filter "RequirementId=FR-01"`
 4. Check report: [reports/TEST_TRACEABILITY.md](../reports/TEST_TRACEABILITY.md)

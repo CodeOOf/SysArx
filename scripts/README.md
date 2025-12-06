@@ -4,6 +4,22 @@
 
 These are the main deployment scripts for SysArx, designed for Docker and Linux environments:
 
+### `generate-matrix.sh`
+Generate automated requirements verification matrix
+
+```bash
+# Generate matrix without test results
+./scripts/generate-matrix.sh
+
+# Run tests first, then generate
+dotnet test --logger:trx
+./scripts/generate-matrix.sh
+```
+
+**Output:** `reports/REQUIREMENTS_MATRIX.md` (auto-generated from requirements, tests, implementation)
+
+**Requirements:** Python 3
+
 ### `switch-mode.sh`
 Switch between authentication modes (Local, Ldap, LdapSSO)
 
@@ -59,6 +75,21 @@ These scripts are **optional convenience tools** for developers working on Windo
 - Linux server deployments
 
 ### Available Scripts
+
+#### `generate-matrix.ps1`
+Windows PowerShell version of `generate-matrix.sh`
+
+```powershell
+# Generate matrix without test results
+.\scripts\generate-matrix.ps1
+
+# Run tests first, then generate
+dotnet test --logger:trx
+.\scripts\generate-matrix.ps1
+
+# Specify custom test results
+.\scripts\generate-matrix.ps1 -TestResults path\to\results.xml
+```
 
 #### `switch-mode.ps1`
 Windows PowerShell version of `switch-mode.sh`

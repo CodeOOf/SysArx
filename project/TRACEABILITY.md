@@ -1,6 +1,6 @@
 # Requirements Traceability
 
-🎯 **You are here**: Implementation Mapping | [← Matrix](REQUIREMENTS_MATRIX.md) | [V&V →](VERIFICATION_VALIDATION.md)
+🎯 **You are here**: Implementation Mapping | [← Matrix](../reports/REQUIREMENTS_MATRIX.md) | [V&V →](VERIFICATION_VALIDATION.md)
 
 ---
 
@@ -330,7 +330,7 @@ tests/
 
 project/
 ├── REQUIREMENTS.md                   # Source requirements
-├── REQUIREMENTS_MATRIX.md            # V&V status
+├── REQUIREMENTS_MATRIX.md            # V&V status (auto-generated in reports/)
 ├── TRACEABILITY.md                   # This file
 └── VERIFICATION_VALIDATION.md        # Test strategy
 
@@ -339,4 +339,4 @@ docker-compose.yml                    # DEP-01, IF-01 to 05
 
 ---
 
-**Navigation**: [← Matrix](REQUIREMENTS_MATRIX.md) | [V&V →](VERIFICATION_VALIDATION.md) | [Tests →](../tests/SysArx.Tests/)
+**Navigation**: [← Matrix](../reports/REQUIREMENTS_MATRIX.md) | [V&V →](VERIFICATION_VALIDATION.md) | [Tests →](../tests/SysArx.Tests/)

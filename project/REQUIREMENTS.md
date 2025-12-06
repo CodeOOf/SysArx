@@ -1,6 +1,6 @@
 # SysArx Requirements Specification
 
-🎯 **You are here**: Requirements | [← Matrix](REQUIREMENTS_MATRIX.md) | [Traceability →](TRACEABILITY.md)
+🎯 **You are here**: Requirements | [← Matrix](../reports/REQUIREMENTS_MATRIX.md) | [Traceability →](TRACEABILITY.md)
 
 **Version**: 1.0.0 | **Date**: 2025-12-06 | **Status**: Draft
 
