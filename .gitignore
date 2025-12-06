@@ -1,8 +1,9 @@
 bin/
 obj/
 .vs/
+
+# VS Code user-specific settings (launch.json and tasks.json should be committed)
 .vscode/settings.json
-.vscode/.suo
 
 # User-specific files
 *.rsuser
@@ -28,7 +29,6 @@ bld/
 
 # Visual Studio cache/options
 .vs/
-.vscode/settings.json
 
 # Docker
 .dockerignore
