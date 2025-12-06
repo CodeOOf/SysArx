@@ -74,14 +74,14 @@ SysArx follows a microservices architecture pattern, providing scalability and m
 | Service | Purpose | Technology | Port |
 |---------|---------|------------|------|
 | **Web** | Interactive browser-based SysML v2 modeling interface | .NET Blazor Server | 5000 |
-| **SysMLStore** | Persistent storage for SysML v2 models and elements (NoSQL/GitHub/GitLab) | MongoDB, .NET | 5001 |
+| **SysMLStore** | Persistent storage for SysML v2 models and elements (NoSQL/External Git Providers) | MongoDB, .NET | 5001 |
 | **SysMLDiagram** | SysML diagram generation | .NET, Redis | 5002 |
 | **Auth** | User authentication and authorization | LDAP, JWT | 5003 |
 
 ### Infrastructure Components
 
 - **MongoDB** - NoSQL database for flexible SysML model storage (default)
-- **GitHub/GitLab** - Git-based storage option for version control and collaboration
+- **External Git Providers** - Git-based storage for version control and collaboration (GitHub, GitLab)
 - **Redis** - High-performance state management via Dapr
 - **RabbitMQ** - Event-driven messaging for service coordination
 - **Keycloak** - SSO and identity management (optional, for LdapSSO mode)
@@ -246,7 +246,7 @@ SysArx supports multiple storage backends for SysML models:
 }
 ```
 
-### GitHub Storage
+### External Git Provider Storage (GitHub)
 **Best for:** Version control, collaboration, public repositories
 
 ```json
@@ -264,7 +264,7 @@ SysArx supports multiple storage backends for SysML models:
 }
 ```
 
-### GitLab Storage
+### External Git Provider Storage (GitLab)
 **Best for:** Self-hosted GitLab, enterprise version control
 
 ```json

@@ -24,16 +24,16 @@
 
 ---
 
-### Model Storage (FR-05, FR-05a, FR-05b, SR-03, IF-01)
+### Model Storage (FR-05, FR-06, SR-03, IF-01)
 
-**Requirements**: FR-05 (NoSQL Storage), FR-05a (Pluggable Storage Providers), FR-05b (Config-based Selection), SR-03 (Persistence), IF-01 (Document Database)
+**Requirements**: FR-05 (Pluggable Storage), FR-06 (Config-based Selection), SR-03 (Persistence), IF-01 (Document Database)
 
-**Implementation Solution**: Pluggable storage architecture with three backends
+**Implementation Solution**: Pluggable storage architecture with multiple backends
 - `src/Services/SysMLStore/Storage/` - Storage abstraction layer
   - `IStorageProvider.cs` - Storage provider interface
   - `NoSqlStorageProvider.cs` - MongoDB implementation (default)
-  - `GitHubStorageProvider.cs` - GitHub repository storage
-  - `GitLabStorageProvider.cs` - GitLab repository storage
+  - `GitHubStorageProvider.cs` - External git provider storage (GitHub)
+  - `GitLabStorageProvider.cs` - External git provider storage (GitLab)
 - `src/Services/SysMLStore/Settings/StorageSettings.cs` - Configuration model
 - `docker-compose.yml` - MongoDB container service definition
 
@@ -41,7 +41,7 @@
 
 **Rationale**: 
 - MongoDB chosen as default for schema flexibility suitable for evolving SysML v2 models
-- GitHub/GitLab storage enables version control and collaboration workflows
+- External git provider storage enables version control and collaboration workflows
 - Storage abstraction allows switching backends without code changes
 
 **Tests**: 
@@ -52,9 +52,9 @@
 
 ---
 
-### Diagram Generation (FR-06, FR-07, SR-04, IF-02)
+### Diagram Generation (FR-07, FR-08, SR-04, IF-02)
 
-**Requirements**: FR-06 (SysML Parsing), FR-07 (SysML Diagram Types), SR-04 (Visualization), IF-02 (State Store)
+**Requirements**: FR-07 (SysML Parsing), FR-08 (SysML Diagram Types), SR-04 (Visualization), IF-02 (State Store)
 
 **Implementation Solution**: Redis + Custom SysML Renderer
 - `src/Services/SysMLDiagram/` - Diagram generation service
@@ -70,9 +70,9 @@
 
 ---
 
-### User Interface (FR-08, SR-01, NFR-06)
+### User Interface (FR-09, SR-01, NFR-06)
 
-**Requirements**: FR-08 (Interactive Web UI), SR-01 (Browser-Based), NFR-06 (Learning Curve)
+**Requirements**: FR-09 (Interactive Web UI), SR-01 (Browser-Based), NFR-06 (Learning Curve)
 
 **Implementation Solution**: Blazor Server (.NET 10.0)
 - `src/web/` - Blazor Server application
@@ -102,9 +102,9 @@
 
 ---
 
-### API Endpoints (FR-09)
+### API Endpoints (FR-10)
 
-**Requirements**: FR-09 (RESTful APIs)
+**Requirements**: FR-10 (RESTful APIs)
 
 **Implementation**:
 - All services expose Swagger/OpenAPI documentation
@@ -116,9 +116,9 @@
 
 ---
 
-### Configuration Management (FR-10, DEP-02, DEP-04)
+### Configuration Management (FR-11, DEP-02, DEP-04)
 
-**Requirements**: FR-10 (Configuration), DEP-02 (Environment Config), DEP-04 (Logging Config)
+**Requirements**: FR-11 (Configuration), DEP-02 (Environment Config), DEP-04 (Logging Config)
 
 **Implementation**:
 - `appsettings.json` - Base configuration
@@ -130,9 +130,9 @@
 
 ---
 
-### Logging (FR-11, DEP-04)
+### Logging (FR-12, DEP-04)
 
-**Requirements**: FR-11 (Structured Logging), DEP-04 (Configurable Logging)
+**Requirements**: FR-12 (Structured Logging), DEP-04 (Configurable Logging)
 
 **Implementation Solution**: Seq
 - Centralized log aggregation via Seq container
@@ -288,17 +288,17 @@
 graph TB
     Browser[Web Browser<br/>Blazor Server]
     
-    Browser -->|SignalR/WebSocket| Web[src/web/<br/>Port 5000<br/>Blazor Server Application<br/>FR-08, SR-01, NFR-06]
+    Browser -->|SignalR/WebSocket| Web[src/web/<br/>Port 5000<br/>Blazor Server Application<br/>FR-09, SR-01, NFR-06]
     
     Web -->|HTTP| Auth[Auth<br/>Port 5003<br/>FR-01 to 04<br/>SEC-01,02]
-    Web -->|HTTP| Store[SysMLStore<br/>Port 5001<br/>FR-05, SR-03]
-    Web -->|HTTP| Diagram[SysMLDiagram<br/>Port 5002<br/>FR-06, FR-07, SR-04]
+    Web -->|HTTP| Store[SysMLStore<br/>Port 5001<br/>FR-05, FR-06, SR-03]
+    Web -->|HTTP| Diagram[SysMLDiagram<br/>Port 5002<br/>FR-07, FR-08, SR-04]
     
     Auth --> LDAP[LDAP/SSO<br/>IF-04, IF-05]
     Store --> MongoDB[MongoDB<br/>IF-01]
     Diagram --> Redis[Redis<br/>IF-02]
     
-    Store -.->|Pub/Sub| Infra[Infrastructure Layer<br/>RabbitMQ IF-03<br/>Seq Logging FR-11<br/>Dapr Runtime]
+    Store -.->|Pub/Sub| Infra[Infrastructure Layer<br/>RabbitMQ IF-03<br/>Seq Logging FR-12<br/>Dapr Runtime]
     Diagram -.->|Pub/Sub| Infra
     
     style Browser fill:#e1f5ff
@@ -321,9 +321,9 @@ src/
 ├── BuildingBlocks/Authentication/     # FR-01 to 04, SEC-01, 02
 ├── Services/
 │   ├── Auth/                     # Authentication service
-│   ├── SysMLStore/               # FR-05, SR-03, IF-01
-│   └── SysMLDiagram/             # FR-06, SR-04, IF-02
-└── web/                              # FR-07, SR-01, NFR-06
+│   ├── SysMLStore/               # FR-05, FR-06, SR-03, IF-01
+│   └── SysMLDiagram/             # FR-07, FR-08, SR-04, IF-02
+└── web/                              # FR-09, SR-01, NFR-06
 
 tests/
 └── SysArx.Tests/                     # All test requirements

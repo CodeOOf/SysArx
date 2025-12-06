@@ -4,7 +4,7 @@ namespace SysArx.Services.SysMLStore.Storage;
 
 /// <summary>
 /// Abstraction for SysML model storage.
-/// Supports multiple storage backends: NoSQL (MongoDB), GitHub, GitLab.
+/// Supports multiple storage backends: NoSQL (MongoDB), External Git Providers.
 /// </summary>
 public interface IStorageProvider
 {

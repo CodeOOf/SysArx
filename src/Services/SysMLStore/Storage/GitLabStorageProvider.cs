@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 namespace SysArx.Services.SysMLStore.Storage;
 
 /// <summary>
-/// GitLab storage provider for SysML models.
+/// External git provider storage implementation for GitLab.
 /// Stores .sysml files in a GitLab repository.
 /// </summary>
 public class GitLabStorageProvider : IStorageProvider

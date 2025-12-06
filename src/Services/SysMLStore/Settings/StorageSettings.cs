@@ -2,7 +2,7 @@ namespace SysArx.Services.SysMLStore.Settings;
 
 /// <summary>
 /// Storage configuration settings.
-/// Determines which storage backend to use: NoSQL, GitHub, or GitLab.
+/// Determines which storage backend to use: NoSQL or External Git Providers.
 /// </summary>
 public class StorageSettings
 {
@@ -29,7 +29,7 @@ public class StorageSettings
 }
 
 /// <summary>
-/// Git-based storage settings (GitHub or GitLab).
+/// Git-based storage settings for external git providers.
 /// </summary>
 public class GitStorageSettings
 {

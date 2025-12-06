@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 namespace SysArx.Services.SysMLStore.Storage;
 
 /// <summary>
-/// GitHub storage provider for SysML models.
+/// External git provider storage implementation for GitHub.
 /// Stores .sysml files in a GitHub repository.
 /// </summary>
 public class GitHubStorageProvider : IStorageProvider

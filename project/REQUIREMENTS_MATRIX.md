@@ -41,12 +41,14 @@
 | FR-02 | Authentication - LDAP | ✅ | `LdapMode_ShouldAuthenticateAgainstLdap` | `Authentication/Services/LdapService.cs` | LDAP integration |
 | FR-03 | Authentication - SSO | ✅ | `LdapSsoMode_ShouldAuthenticateViaOIDC` | `Authentication/Extensions/` | OpenID Connect |
 | FR-04 | Mode Switching | ✅ | `ModeSwitching_ShouldChangeAuth` | `Authentication/Settings/` | Config-based switching |
-| FR-05 | Model Storage | ✅ | `Crud_ShouldPersistModels` | `SysMLStore/` | MongoDB persistence |
-| FR-06 | Diagram Generation | ✅ | `Generation_ShouldProduceValidDiagram` | `SysMLDiagram/` | Diagram service |
-| FR-07 | Blazor UI | ✅ | `Components_ShouldRenderCorrectly` | `web/Components/` | Interactive UI |
-| FR-08 | API Endpoints | ✅ | `Endpoints_ShouldRespondCorrectly` | All API services | RESTful APIs |
-| FR-09 | Configuration | ✅ | `AppSettings_ShouldLoadCorrectly` | `appsettings.json` | Standard .NET config |
-| FR-10 | Logging | 🧪 | `Operations_ShouldLogToSeq` | All services | Seq integration testing |
+| FR-05 | Pluggable Storage | ✅ | `Crud_ShouldPersistModels`, `StorageProviders_ShouldSwitchBackends` | `SysMLStore/Storage/` | NoSQL/Git providers |
+| FR-06 | Storage Selection | ✅ | `StorageConfig_ShouldChangeProvider` | `SysMLStore/Settings/` | Config-based backend |
+| FR-07 | SysML Parsing | ✅ | `Parser_ShouldValidateSysMLFiles` | `SysMLDiagram/` | OMG SysML v2 spec |
+| FR-08 | Diagram Generation | ✅ | `DiagramGeneration_ShouldSupportAllTypes` | `SysMLDiagram/` | All diagram types |
+| FR-09 | Blazor UI | ✅ | `Components_ShouldRenderCorrectly` | `web/Components/` | Interactive UI |
+| FR-10 | API Endpoints | ✅ | `Endpoints_ShouldRespondCorrectly` | All API services | RESTful APIs |
+| FR-11 | Configuration | ✅ | `AppSettings_ShouldLoadCorrectly` | `appsettings.json` | Standard .NET config |
+| FR-12 | Logging | 🧪 | `Operations_ShouldLogToSeq` | All services | Seq integration testing |
 
 ### Non-Functional Requirements
 
