@@ -26,7 +26,7 @@ SysArx is an open-source .NET web application for creating, visualizing, and edi
 - Automated test coverage with requirement tagging
 
 **Getting Started**:
-- 🚀 [Quick Start](#quick-start) - Get running in 5 minutes
+- 🚀 [Quick Start](#quick-start) - Get running in 5 minutes with `make`
 - 🔧 [Contributing](CONTRIBUTING.md) - Start developing
 - 📋 [Requirements Matrix](reports/REQUIREMENTS_MATRIX.md) - Systems Engineers start here
 - 📖 [Full Documentation](docs/DOCUMENTATION_NAVIGATION.md)
@@ -38,17 +38,32 @@ SysArx is an open-source .NET web application for creating, visualizing, and edi
 ### Prerequisites
 
 - **Docker & Docker Compose** - Primary deployment platform
+- **Make** - Cross-platform build automation (recommended)
 - .NET 10.0 SDK (optional, for local development outside containers)
 
-### Run with Docker
+### Run with Make (Recommended)
 
 ```bash
 # Clone the repository
 git clone https://github.com/CodeOOf/SysArx.git
 cd SysArx
 
+# See all available commands
+make help
+
+# Start all services with Docker Compose
+make docker-up
+
+# Or build and test locally
+make build
+make test
+```
+
+### Run with Docker Compose (Alternative)
+
+```bash
 # Start all services (Local mode by default)
-docker-compose up -d
+docker compose up -d
 ```
 
 **Access the application:**
@@ -107,12 +122,15 @@ SysArx supports three flexible deployment modes for different team sizes and sec
 
 ```bash
 # Docker/Linux (primary deployment method)
+make docker-up
+
+# Or using scripts
 ./scripts/switch-mode.sh Local
-docker-compose up -d
+docker compose up -d
 
 # Windows development environment
 scripts\switch-mode.ps1 -Mode Local
-docker-compose up -d
+docker compose up -d
 ```
 
 ### 🏢 LDAP Mode (Enterprise)

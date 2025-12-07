@@ -1,29 +1,83 @@
 # SysArx Quick Start Guide
 
+Get SysArx running in minutes using the built-in Makefile automation.
+
 ## Prerequisites Check
 
 Before starting, ensure you have:
 - [ ] Docker Desktop installed and running
-- [ ] .NET 10.0 SDK installed
-- [ ] Dapr CLI installed (optional for local dev)
+- [ ] Make utility installed (comes with Git Bash on Windows, or use `winget install GnuWin32.Make`)
+- [ ] .NET 10.0 SDK (optional, only for local development)
 
-## Quick Start with Docker
+> 💡 **Tip**: Run `make help` at any time to see all available commands
+
+## Quick Start with Make
 
 1. **Clone and navigate to the project:**
-2. **Start all services with Docker Compose:**
    ```bash
-   docker-compose up --build
+   git clone https://github.com/CodeOOf/SysArx.git
+   cd SysArx
    ```
 
-3. **Wait for all services to start** (approximately 2-3 minutes)
+2. **See all available commands:**
+   ```bash
+   make help
+   ```
 
-4. **Access the applications:**
+3. **Start all services with Docker Compose:**
+   ```bash
+   make docker-up
+   ```
+
+4. **Wait for all services to start** (approximately 2-3 minutes)
+
+5. **Access the applications:**
    - **Blazor Web UI**: http://localhost:5000
    - **Auth API (Swagger)**: http://localhost:5003/swagger
    - **SysMLStore API (Swagger)**: http://localhost:5001/swagger
    - **SysMLDiagram API (Swagger)**: http://localhost:5002/swagger
    - **Seq Logs**: http://localhost:5341
    - **RabbitMQ Management**: http://localhost:15672 (guest/guest)
+
+## Common Make Commands
+
+```bash
+# Build and test locally (without Docker)
+make build          # Build the solution
+make test           # Run all tests
+make test-security  # Run security tests only
+make run-web        # Start the web application locally
+
+# Docker commands
+make docker         # Build all Docker images
+make docker-up      # Start all services
+make docker-down    # Stop all services
+make docker-logs    # View logs from all services
+
+# Development
+make format         # Format code
+make lint           # Check code formatting
+make clean          # Clean build artifacts
+make matrix         # Generate requirements matrix
+
+# Full pipeline
+make all            # Build, test, and generate reports
+```
+
+## Alternative: Manual Docker Compose
+
+If you prefer not to use Make:
+
+```bash
+# Start all services
+docker compose up -d
+
+# View logs
+docker compose logs -f
+
+# Stop all services
+docker compose down
+```
 
 ## Test the Authentication
 
@@ -98,6 +152,15 @@ Before starting, ensure you have:
 
 **Docker Compose Logs**:
 ```bash
+# Using Make
+make docker-logs
+
+# Or directly with Docker Compose
+docker compose logs -f
+
+# Specific service
+docker compose logs -f web
+```
 # All services
 docker-compose logs -f
 
