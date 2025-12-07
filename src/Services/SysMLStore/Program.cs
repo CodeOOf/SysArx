@@ -1,11 +1,14 @@
 using Serilog;
+using Dapr.Client;
+using Dapr.Extensions.Configuration;
 using SysArx.BuildingBlocks.EventBus.Extensions;
 using SysArx.BuildingBlocks.Healthchecks.Extensions;
 using SysArx.BuildingBlocks.Authentication.Extensions;
 using SysArx.Services.SysMLStore.Services;
 using SysArx.Services.SysMLStore.Settings;
 using SysArx.Services.SysMLStore.Storage;
-using AspNetCore.HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using HealthChecks.UI.Client;
 
 var appName = "SysMLStore API";
 var builder = WebApplication.CreateBuilder(args);
@@ -65,9 +68,13 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 // Add health checks
+var mongoConnectionString = builder.Configuration.GetValue<string>("MongoDbSettings:ConnectionString") ?? "mongodb://localhost:27017";
+builder.Services.AddSingleton<MongoDB.Driver.IMongoClient>(sp => 
+    new MongoDB.Driver.MongoClient(mongoConnectionString));
+
 builder.Services.AddCustomHealthChecks()
     .AddMongoDb(
-        builder.Configuration.GetValue<string>("MongoDbSettings:ConnectionString") ?? "mongodb://localhost:27017",
+        sp => sp.GetRequiredService<MongoDB.Driver.IMongoClient>(),
         name: "mongodb",
         tags: new[] { "ready" });
 

@@ -1,8 +1,8 @@
 using Serilog;
 using SysArx.BuildingBlocks.Authentication.Extensions;
 using SysArx.BuildingBlocks.Healthchecks.Extensions;
-using AspNetCore.HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using HealthChecks.UI.Client;
 
 var appName = "Auth API";
 var builder = WebApplication.CreateBuilder(args);

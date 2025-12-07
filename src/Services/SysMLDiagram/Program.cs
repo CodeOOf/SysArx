@@ -3,7 +3,8 @@ using SysArx.BuildingBlocks.EventBus.Extensions;
 using SysArx.BuildingBlocks.Healthchecks.Extensions;
 using SysArx.BuildingBlocks.Authentication.Extensions;
 using SysArx.Services.SysMLDiagram.Services;
-using AspNetCore.HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using HealthChecks.UI.Client;
 
 var appName = "SysMLDiagram API";
 var builder = WebApplication.CreateBuilder(args);

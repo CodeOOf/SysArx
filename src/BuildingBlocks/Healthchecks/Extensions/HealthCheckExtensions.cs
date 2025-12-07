@@ -8,12 +8,10 @@ namespace SysArx.BuildingBlocks.Healthchecks.Extensions;
 
 public static class HealthCheckExtensions
 {
-    public static IServiceCollection AddCustomHealthChecks(this IServiceCollection services)
+    public static IHealthChecksBuilder AddCustomHealthChecks(this IServiceCollection services)
     {
-        services.AddHealthChecks()
+        return services.AddHealthChecks()
             .AddCheck("self", () => HealthCheckResult.Healthy());
-
-        return services;
     }
 
     public static void MapCustomHealthChecks(
