@@ -1,4 +1,5 @@
 using Dapr.Client;
+using Microsoft.Extensions.Logging;
 using SysArx.BuildingBlocks.EventBus.Abstractions;
 using SysArx.BuildingBlocks.EventBus.Events;
 
